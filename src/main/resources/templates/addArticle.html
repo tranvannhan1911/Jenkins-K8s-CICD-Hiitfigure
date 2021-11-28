@@ -19,6 +19,12 @@
           </div>
         </div>
         <div class="form-group row">
+          <label for="description" class="col-2 col-form-label text-right">Description</label>
+          <div class="col-6">
+            <input th:value="${article.description}" type="text" class="form-control" id="description" name="description">
+          </div>
+        </div>
+        <div class="form-group row">
           <label for="category" class="col-2 col-form-label text-right">Category</label>
           <div class="col-6">
             <input type="text" class="form-control" id="categories" name="category" data-role="tagsinput">
