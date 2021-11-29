@@ -27,6 +27,16 @@
     <!-- Font Awesome icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/v4-shims.css">
+    <!-- Youtube subcribe icon -->
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <!-- Facebook share -->
+    <!-- You can use Open Graph tags to customize link previews.
+    Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
+    <meta property="og:url"           content="https://www.facebook.com/hiitfigure" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Your Website Title" />
+    <meta property="og:description"   content="Your description" />
+    <meta property="og:image"         content="https://www.your-domain.com/path/image.jpg" />
 </head>
 
 
@@ -124,13 +134,9 @@
                     </div>
                     <div class="mt-2">
                         <h6 class="font-weight-bold">Follow us</h6>
-                        <div class="list-group list-group-flush list-group-no-border list-group-sm flex-row">
-                            <a href="https://www.facebook.com/hiitfigure" target="_blank" style="color: #007bff; margin-right: 25px">
-                                <i class="fab fa-facebook-square" style="font-size: 24px"></i>
-                            </a>
-                            <a href="https://www.youtube.com/channel/UCjZB7nj_nYVaT2vEROXrtuw" target="_blank" style="color: #ff0000">
-                                <i class="fab fa-youtube-square" style="font-size: 24px"></i>
-                            </a>
+                        <div class="list-group list-group-flush list-group-no-border list-group-sm flex-column">
+                            <div class="g-ytsubscribe mt-2" data-channelid="UCjZB7nj_nYVaT2vEROXrtuw" data-layout="full" data-count="default"></div>
+                            <div class="fb-like mt-4" data-href="https://www.facebook.com/hiitfigure/" data-width="" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
                         </div>
                     </div>
                 </div>
@@ -167,6 +173,15 @@
             });
         });
     </script>
+
+    <!-- Load Facebook SDK for JavaScript -->
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 
 </div>
 
