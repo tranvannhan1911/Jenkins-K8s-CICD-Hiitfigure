@@ -7,6 +7,7 @@ import java.util.Set;
 public class ArticleBuilder {
 		
 	private String title;
+	private String description;
 	private int stock;	
 	private double price;
 	private Set<String> pictures;
@@ -19,6 +20,11 @@ public class ArticleBuilder {
 	
 	public ArticleBuilder withTitle(String title) {
 		this.title = title;
+		return this;
+	}
+
+	public ArticleBuilder withDescription(String description) {
+		this.description = description;
 		return this;
 	}
 	
@@ -55,6 +61,7 @@ public class ArticleBuilder {
 	public Article build() {
 		Article article = new Article();
 		article.setTitle(this.title);
+		article.setDescription(this.description);
 		article.setPrice(this.price);
 		article.setStock(this.stock);
 		article.setPicture(this.pictures);		
@@ -80,9 +87,8 @@ public class ArticleBuilder {
 				brandlements.add(new Brand(val,article));
 			}
 			article.setBrands(brandlements);
-		}		
-		
-		
+		}
+
 		return article;
 	}
 	
