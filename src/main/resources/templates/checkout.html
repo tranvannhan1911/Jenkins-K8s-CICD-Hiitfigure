@@ -134,7 +134,20 @@
 
           <div class="card mt-4">
             <div class="card-header bg-white checkout-header">PAYMENT</div>
-            <div class="card-body"></div>
+            <div class="card-body">
+              <div>
+                Please select payment method
+              </div>
+              <select id="select-form" class="form-select form-select-sm mt-2" aria-label=".form-select-sm example">
+                <option value="1" selected>Cash on Delivery</option>
+                <option value="2">Transfer to us</option>
+              </select>
+              <div id="cash-delivery" class="flex-column mt-2" style="display: none">
+                <span class="m-1">Account number: </span>
+                <span class="m-1">Account holder: </span>
+                <span class="m-1">Bank: </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -145,7 +158,20 @@
   
   <div th:replace="common/header :: footer"> </div>  
   <div th:replace="common/header :: body-scripts"> </div>
- 
+
+  <script>
+    $(function () {
+      $("#select-form").change(function () {
+        let selected = $("#select-form option:selected");
+        if (selected.val() == '2') {
+          $("#cash-delivery").css('display', 'flex');
+        } else {
+          console.log(1);
+          $("#cash-delivery").css('display', 'none');
+        }
+      })
+    })
+  </script>
   
 </body>
 </html>
