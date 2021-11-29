@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,9 +47,27 @@ public class ArticleController {
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public String addArticlePost(@ModelAttribute("article") Article article, @RequestParam(value = "pictures") MultipartFile[] files, HttpServletRequest request) {
 //		upload image
-		Set<String> fileUploaded = s3Service.uploadFiles(files);
-		System.out.println(fileUploaded);
+//		check 
+		if(files.length == 0) { // no have image
+			return "redirect:error";
+		}
 		
+		if(files.length > 3) { // too much image
+			return "redirect:error";
+		}
+		
+//		check content type
+		for(MultipartFile file: files){
+			String contentType = file.getContentType();
+			if(!contentType.startsWith("image/")) { // not is image
+				return "redirect:error";
+			}
+		}
+		
+//		upload
+		Set<String> fileUploaded = s3Service.uploadFiles(files);
+		
+//		
 		Article newArticle = new ArticleBuilder()
 				.withTitle(article.getTitle())
 				.withDescription(article.getDescription())
