@@ -27,7 +27,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-6">
-            <img class="img-fluid" th:src="${article.picture}">
+             <img class="img-fluid" th:each="picture : ${article.pictures}" th:src="${picture.getPicture()}">
           </div>
           <div class="col-md-6 mt-3 mt-md-0">          
             <h2 class="card-title" th:text="${article.title}"></h2>
