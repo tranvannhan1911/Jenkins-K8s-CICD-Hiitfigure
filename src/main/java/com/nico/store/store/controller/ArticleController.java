@@ -2,6 +2,7 @@ package com.nico.store.store.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.nico.store.store.aws.s3.service.S3Service;
 import com.nico.store.store.domain.Article;
 import com.nico.store.store.domain.ArticleBuilder;
 import com.nico.store.store.domain.Brand;
@@ -27,6 +30,9 @@ public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
 	
+	@Autowired
+    private S3Service s3Service;
+	
 	@RequestMapping("/add")
 	public String addArticle(Model model) {
 		Article article = new Article();
@@ -38,13 +44,17 @@ public class ArticleController {
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String addArticlePost(@ModelAttribute("article") Article article, HttpServletRequest request) {
+	public String addArticlePost(@ModelAttribute("article") Article article, @RequestParam(value = "pictures") MultipartFile[] files, HttpServletRequest request) {
+//		upload image
+		Set<String> fileUploaded = s3Service.uploadFiles(files);
+		System.out.println(fileUploaded);
+		
 		Article newArticle = new ArticleBuilder()
 				.withTitle(article.getTitle())
 				.withDescription(article.getDescription())
 				.stockAvailable(article.getStock())
 				.withPrice(article.getPrice())
-				.imageLink(article.getPicture())
+				.imageLink(fileUploaded)
 				.sizesAvailable(Arrays.asList(request.getParameter("size").split("\\s*,\\s*")))
 				.ofCategories(Arrays.asList(request.getParameter("category").split("\\s*,\\s*")))
 				.ofBrand(Arrays.asList(request.getParameter("brand").split("\\s*,\\s*")))
