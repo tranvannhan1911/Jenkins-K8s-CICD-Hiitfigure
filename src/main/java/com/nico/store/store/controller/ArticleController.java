@@ -45,7 +45,7 @@ public class ArticleController {
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String addArticlePost(@ModelAttribute("article") Article article, @RequestParam(value = "pictures") MultipartFile[] files, HttpServletRequest request) {
+	public String addArticlePost(@ModelAttribute("article") Article article, @RequestParam(value = "files") MultipartFile[] files, HttpServletRequest request) {
 //		upload image
 //		check 
 		if(files.length == 0) { // no have image
@@ -67,7 +67,6 @@ public class ArticleController {
 //		upload
 		Set<String> fileUploaded = s3Service.uploadFiles(files);
 		
-//		
 		Article newArticle = new ArticleBuilder()
 				.withTitle(article.getTitle())
 				.withDescription(article.getDescription())
@@ -115,13 +114,35 @@ public class ArticleController {
 	}
 	
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
-	public String editArticlePost(@ModelAttribute("article") Article article, HttpServletRequest request) {		
+	public String editArticlePost(@ModelAttribute("article") Article article, @RequestParam(value = "pictures") MultipartFile[] files, HttpServletRequest request) {
+		
+//		upload image
+//		check 
+		if(files.length == 0) { // no have image
+			return "redirect:error";
+		}
+		
+		if(files.length > 3) { // too much image
+			return "redirect:error";
+		}
+		
+//		check content type
+		for(MultipartFile file: files){
+			String contentType = file.getContentType();
+			if(!contentType.startsWith("image/")) { // not is image
+				return "redirect:error";
+			}
+		}
+		
+//		upload
+		Set<String> fileUploaded = s3Service.uploadFiles(files);
+		
 		Article newArticle = new ArticleBuilder()
 				.withTitle(article.getTitle())
 				.withDescription(article.getDescription())
 				.stockAvailable(article.getStock())
 				.withPrice(article.getPrice())
-				.imageLink(article.getPicture())
+				.imageLink(fileUploaded)
 				.sizesAvailable(Arrays.asList(request.getParameter("size").split("\\s*,\\s*")))
 				.ofCategories(Arrays.asList(request.getParameter("category").split("\\s*,\\s*")))
 				.ofBrand(Arrays.asList(request.getParameter("brand").split("\\s*,\\s*")))
