@@ -3,10 +3,14 @@ package com.nico.store.store.domain;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -18,7 +22,11 @@ public class Article {
 	private String title;
 	private int stock;	
 	private double price;
-	private String picture;
+	
+	@ElementCollection
+	@CollectionTable(name = "ArticlePictures", joinColumns =  @JoinColumn(name = "articleId"))
+	@Column(name = "picture")
+	private Set<String> pictures;
 	
 	@OneToMany(mappedBy="article", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Size> sizes;
@@ -114,11 +122,11 @@ public class Article {
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
 	}
-	public String getPicture() {
-		return picture;
+	public Set<String> getPicture() {
+		return pictures;
 	}
-	public void setPicture(String picture) {
-		this.picture = picture;
+	public void setPicture(Set<String> pictures) {
+		this.pictures = pictures;
 	}
 	
 	

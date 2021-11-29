@@ -30,3 +30,5 @@ HELP.md
 
 ### python ###
 /scripts/.ipynb_checkpoints/
+/src/
+/store.eml
