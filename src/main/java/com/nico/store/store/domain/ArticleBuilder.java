@@ -64,7 +64,13 @@ public class ArticleBuilder {
 		article.setDescription(this.description);
 		article.setPrice(this.price);
 		article.setStock(this.stock);
-		article.setPicture(this.pictures);		
+		if (this.pictures != null && !this.pictures.isEmpty()) {
+			Set<ArticlePicture> pictures = new HashSet<>();
+			for (String val : this.pictures) {
+				pictures.add(new ArticlePicture(article, val));
+			}	
+			article.setPictures(pictures);
+		}		
 		
 		if (this.sizes != null && !this.sizes.isEmpty()) {
 			Set<Size> sizeElements = new HashSet<>();

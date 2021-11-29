@@ -7,6 +7,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,10 +25,8 @@ public class Article {
 	private int stock;	
 	private double price;
 	
-	@ElementCollection
-	@CollectionTable(name = "ArticlePictures", joinColumns =  @JoinColumn(name = "articleId"))
-	@Column(name = "picture")
-	private Set<String> pictures;
+	@OneToMany(mappedBy="article", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private Set<ArticlePicture> pictures;
 	
 	@OneToMany(mappedBy="article", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Size> sizes;
@@ -125,11 +124,11 @@ public class Article {
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
 	}
-	public Set<String> getPicture() {
+	public Set<ArticlePicture> getPictures() {
 		return pictures;
 	}
-	public void setPicture(Set<String> pictures) {
+	public void setPictures(Set<ArticlePicture> pictures) {
 		this.pictures = pictures;
 	}
-
+ 
 }
