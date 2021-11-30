@@ -37,7 +37,7 @@
               </h2>              
               <h6>(<span th:text="${article.stock}"></span> in stock)</h6>
             </div>            
-            <p class="d-none d-lg-block">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta voluptatibus quos ea dolore rem, molestias laudantium et explicabo assumenda fugiat deserunt in, facilis laborum excepturi aliquid nobis ipsam deleniti aut? Aliquid sit hic id velit qui fuga nemo suscipit obcaecati. Officia nisi quaerat minus nulla saepe aperiam sint possimus magni veniam provident.</p>
+            <p class="d-none d-lg-block" th:text="${article.description}"></p>
             <form th:action="@{/shopping-cart/add-item}" method="post">
               <input hidden="hidden" th:field="*{article.id}">  
               <div class="form-row">
