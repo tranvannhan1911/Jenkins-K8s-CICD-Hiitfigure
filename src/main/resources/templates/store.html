@@ -15,6 +15,17 @@
         <div class="col-lg-3 col-md-4">
           <div class="accordion accordion-caret accordion-sidebar d-none d-md-block">
             <div class="card">
+              <div class="card-body">
+                <div class="custom-checkbox custom-control pt-4">
+                  <input type="checkbox" class="custom-control-input check-all-filter" id="check-all" value="" name="brand"
+                         th:checked="${(param.category == null) and (param.pricehigh == null)
+                          and (param.pricelow == null) and (param.brand == null) and (param.search == null)
+                          and (param.sort == null) and (param.page == null)} ? checked">
+                  <label class="custom-control-label" for="check-all">All</label>
+                </div>
+              </div>
+            </div>
+            <div class="card">
               <div class="card-header">
                 <a href="#filter-categories" data-toggle="collapse" aria-expanded="true" aria-controls="filter-categories" role="button" class="h6">
                   CATEGORIES
@@ -80,15 +91,6 @@
               </div>
             </div>
             <div class="card">
-              <div class="card-body">
-                <div class="custom-checkbox custom-control pt-2">
-                  <input type="checkbox" class="custom-control-input check-all-filter" id="check-all" value="" name="brand"
-                         th:checked="${(param.category == null) and (param.pricehigh == null)
-                          and (param.pricelow == null) and (param.brand == null) and (param.search == null)
-                          and (param.sort == null) and (param.page == null)} ? checked">
-                  <label class="custom-control-label" for="check-all">All</label>
-                </div>
-              </div>
               <div class="card-header px-5 py-2 text-center">
                  <button type="submit" form="filter-form" class="btn btn-primary rounded-pill btn-block btn-sm">APPLY</button>              
               </div>
