@@ -19,7 +19,7 @@ public class ArticlePicture {
 	@JoinColumn(name="article_id")
 	private Article article;
 	
-	private String picture;
+	private String pictureUrl;
 	
 	public ArticlePicture() {
 	
@@ -28,7 +28,7 @@ public class ArticlePicture {
 	public ArticlePicture(Article article, String picture) {
 		super();
 		this.article = article;
-		this.picture = picture;
+		this.pictureUrl = picture;
 	}
 
 	public Long getId() {
@@ -47,12 +47,12 @@ public class ArticlePicture {
 		this.article = article;
 	}
 
-	public String getPicture() {
-		return picture;
+	public String getPictureUrl() {
+		return pictureUrl;
 	}
 
-	public void setPicture(String picture) {
-		this.picture = picture;
+	public void setPictureUrl(String picture) {
+		this.pictureUrl = picture;
 	}
 	
 	

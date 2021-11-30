@@ -30,10 +30,10 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleService articleService;
-	
+
 	@Autowired
-    private S3Service s3Service;
-	
+	private S3Service s3Service;
+
 	@RequestMapping("/add")
 	public String addArticle(Model model) {
 		Article article = new Article();
@@ -43,51 +43,48 @@ public class ArticleController {
 		model.addAttribute("allCategories", articleService.getAllCategories());
 		return "addArticle";
 	}
-	
-	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String addArticlePost(@ModelAttribute("article") Article article, @RequestParam(value = "files") MultipartFile[] files, HttpServletRequest request) {
-//		upload image
-//		check 
-		if(files.length == 0) { // no have image
+
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public String addArticlePost(@ModelAttribute("article") Article article,
+			@RequestParam(value = "files") MultipartFile[] files, HttpServletRequest request) {
+		if (files.length == 0) {
 			return "redirect:error";
 		}
-		
-		if(files.length > 3) { // too much image
+
+		if (files.length > 3) {
 			return "redirect:error";
 		}
-		
-//		check content type
-		for(MultipartFile file: files){
+
+		for (MultipartFile file : files) {
 			String contentType = file.getContentType();
-			if(!contentType.startsWith("image/")) { // not is image
+			if (!contentType.startsWith("image/")) {
+				return "redirect:error";
+			}
+
+			if (file.getSize() > 1048576) { // 1mb
 				return "redirect:error";
 			}
 		}
-		
-//		upload
+
 		Set<String> fileUploaded = s3Service.uploadFiles(files);
-		
-		Article newArticle = new ArticleBuilder()
-				.withTitle(article.getTitle())
-				.withDescription(article.getDescription())
-				.stockAvailable(article.getStock())
-				.withPrice(article.getPrice())
-				.imageLink(fileUploaded)
+
+		Article newArticle = new ArticleBuilder().withTitle(article.getTitle())
+				.withDescription(article.getDescription()).stockAvailable(article.getStock())
+				.withPrice(article.getPrice()).imageLink(fileUploaded)
 				.sizesAvailable(Arrays.asList(request.getParameter("size").split("\\s*,\\s*")))
 				.ofCategories(Arrays.asList(request.getParameter("category").split("\\s*,\\s*")))
-				.ofBrand(Arrays.asList(request.getParameter("brand").split("\\s*,\\s*")))
-				.build();		
-		articleService.saveArticle(newArticle);	
+				.ofBrand(Arrays.asList(request.getParameter("brand").split("\\s*,\\s*"))).build();
+		articleService.saveArticle(newArticle);
 		return "redirect:article-list";
 	}
-	
+
 	@RequestMapping("/article-list")
 	public String articleList(Model model) {
 		List<Article> articles = articleService.findAllArticles();
 		model.addAttribute("articles", articles);
 		return "articleList";
 	}
-	
+
 	@RequestMapping("/edit")
 	public String editArticle(@RequestParam("id") Long id, Model model) {
 		Article article = articleService.findArticleById(id);
@@ -102,7 +99,7 @@ public class ArticleController {
 		String preselectedCategories = "";
 		for (Category category : article.getCategories()) {
 			preselectedCategories += (category.getName() + ",");
-		}		
+		}
 		model.addAttribute("article", article);
 		model.addAttribute("preselectedSizes", preselectedSizes);
 		model.addAttribute("preselectedBrands", preselectedBrands);
@@ -112,50 +109,47 @@ public class ArticleController {
 		model.addAttribute("allCategories", articleService.getAllCategories());
 		return "editArticle";
 	}
-	
-	@RequestMapping(value="/edit", method=RequestMethod.POST)
-	public String editArticlePost(@ModelAttribute("article") Article article, @RequestParam(value = "pictures") MultipartFile[] files, HttpServletRequest request) {
-		
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public String editArticlePost(@ModelAttribute("article") Article article,
+			@RequestParam(value = "pictures") MultipartFile[] files, HttpServletRequest request) {
+
 //		upload image
 //		check 
-		if(files.length == 0) { // no have image
+		if (files.length == 0) { // no have image
 			return "redirect:error";
 		}
-		
-		if(files.length > 3) { // too much image
+
+		if (files.length > 3) { // too much image
 			return "redirect:error";
 		}
-		
+
 //		check content type
-		for(MultipartFile file: files){
+		for (MultipartFile file : files) {
 			String contentType = file.getContentType();
-			if(!contentType.startsWith("image/")) { // not is image
+			if (!contentType.startsWith("image/")) { // not is image
 				return "redirect:error";
 			}
 		}
-		
+
 //		upload
 		Set<String> fileUploaded = s3Service.uploadFiles(files);
-		
-		Article newArticle = new ArticleBuilder()
-				.withTitle(article.getTitle())
-				.withDescription(article.getDescription())
-				.stockAvailable(article.getStock())
-				.withPrice(article.getPrice())
-				.imageLink(fileUploaded)
+
+		Article newArticle = new ArticleBuilder().withTitle(article.getTitle())
+				.withDescription(article.getDescription()).stockAvailable(article.getStock())
+				.withPrice(article.getPrice()).imageLink(fileUploaded)
 				.sizesAvailable(Arrays.asList(request.getParameter("size").split("\\s*,\\s*")))
 				.ofCategories(Arrays.asList(request.getParameter("category").split("\\s*,\\s*")))
-				.ofBrand(Arrays.asList(request.getParameter("brand").split("\\s*,\\s*")))
-				.build();
+				.ofBrand(Arrays.asList(request.getParameter("brand").split("\\s*,\\s*"))).build();
 		newArticle.setId(article.getId());
-		articleService.saveArticle(newArticle);	
+		articleService.saveArticle(newArticle);
 		return "redirect:article-list";
 	}
-	
+
 	@RequestMapping("/delete")
 	public String deleteArticle(@RequestParam("id") Long id) {
 		articleService.deleteArticleById(id);
 		return "redirect:article-list";
 	}
-	
+
 }
