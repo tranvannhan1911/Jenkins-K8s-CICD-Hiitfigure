@@ -1,6 +1,8 @@
 package com.nico.store.store.controller;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -47,11 +49,12 @@ public class ArticleController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addArticlePost(@ModelAttribute("article") Article article,
 			@RequestParam(value = "files") MultipartFile[] files, HttpServletRequest request) {
-		if (files.length == 0) {
+		
+		if (files.length == 0 || (files.length == 1 && files[0].getSize() == 0)) {
 			return "redirect:error";
 		}
 
-		if (files.length > 3) {
+		if (files.length > 5) {
 			return "redirect:error";
 		}
 
@@ -112,28 +115,42 @@ public class ArticleController {
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String editArticlePost(@ModelAttribute("article") Article article,
-			@RequestParam(value = "pictures") MultipartFile[] files, HttpServletRequest request) {
+			@RequestParam(value = "files") MultipartFile[] files, HttpServletRequest request) {
+		List<String> oldPictureUrl = Arrays.asList(request.getParameter("old_picture_url").split("\\s*,\\s*"));
+		int old_img = 0;
+		if(oldPictureUrl.size() != 0 && oldPictureUrl.get(0).equals("")) {
+			oldPictureUrl.clear();
+		}
+		
+		old_img = oldPictureUrl.size(); 
+		
+		int img_upload = 0;
+		if(files.length != 0 && files[0].getSize() != 0)
+			img_upload = files.length; 
 
-//		upload image
-//		check 
-		if (files.length == 0) { // no have image
+		if (old_img + img_upload == 0) {
 			return "redirect:error";
 		}
 
-		if (files.length > 3) { // too much image
+		if (old_img + img_upload > 5) {
 			return "redirect:error";
 		}
-
-//		check content type
-		for (MultipartFile file : files) {
-			String contentType = file.getContentType();
-			if (!contentType.startsWith("image/")) { // not is image
-				return "redirect:error";
+		
+		Set<String> fileUploaded = new HashSet<String>();
+		
+		if(img_upload > 0) {
+			for (MultipartFile file : files) {
+				String contentType = file.getContentType();
+				if (!contentType.startsWith("image/")) {
+					return "redirect:error";
+				}
 			}
+			fileUploaded = s3Service.uploadFiles(files);
 		}
-
-//		upload
-		Set<String> fileUploaded = s3Service.uploadFiles(files);
+		
+		for (String pictureUrl: oldPictureUrl) {
+			fileUploaded.add(pictureUrl);
+		}
 
 		Article newArticle = new ArticleBuilder().withTitle(article.getTitle())
 				.withDescription(article.getDescription()).stockAvailable(article.getStock())

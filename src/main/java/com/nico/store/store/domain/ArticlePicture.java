@@ -55,5 +55,8 @@ public class ArticlePicture {
 		this.pictureUrl = picture;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return this.pictureUrl;
+	}
 }

@@ -31,6 +31,10 @@ a {
 	height: 100px;
 }
 
+.preview-img:hover{
+	opacity: 0.5;
+}
+
 .slide-img{
 	max-height: 400px;
     object-fit: contain;
