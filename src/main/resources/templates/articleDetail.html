@@ -41,30 +41,37 @@
 						<!-- <img class="img-fluid" th:each="picture : ${article.pictures}"
 							th:src="${picture.getPicture()}"> -->
 
-						<div id="carouselExampleIndicators" class="carousel slide"
-							data-ride="carousel">
-							<ol class="carousel-indicators">
-								<li th:each="picture, idx : ${article.pictures}" data-target="#carouselExampleIndicators" data-slide-to="${idx.index}"
-									th:class="${idx.index} == 0 ? 'active' : ''"></li>
+						<div id="carouselExampleIndicators" class="carousel "
+							data-ride="carousel" data-interval=false>
+							<ol class="carousel-indicators" style="margin: 0;">
+								<li th:each="picture, idx : ${article.pictures}"
+									data-target="#carouselExampleIndicators"
+									th:data-slide-to="${idx.index}"
+									th:class="${idx.index} == 0 ? 'active' : ''"
+									style="width: 70px; height: 70px; background-color: transparent;">
+									<div class="d-block w-100 cover-img"
+										style="width: 70px; height: 70px; background-size: cover !important;"
+										th:styleappend="'background: url('+ ${picture.getPictureUrl()} + ')'"></div>
+								</li>
 							</ol>
-							<div class="carousel-inner">
-								<div th:each="picture, idx : ${article.pictures}" class="carousel-item" th:classappend="${idx.index} == 0 ? 'active' : ''" >
-									<div class="d-block w-100 cover-img" style="height: 400px;" th:styleappend="'background: url('+ ${picture.getPictureUrl()} + ')'"></div>
-									<!-- <img th:src="${picture.getPictureUrl()}" class="d-block w-100"
-										alt=""> -->
+							<div class="carousel-inner" style="height: 500px;">
+								<div th:each="picture, idx : ${article.pictures}"
+									class="carousel-item" style="height: 400px;"
+									th:classappend="${idx.index} == 0 ? 'active' : ''">
+									<!--<div class="d-block w-100 cover-img" style="height: 400px;"
+										th:styleappend="'background: url('+ ${picture.getPictureUrl()} + ')'" 
+										th:xoriginal="${picture.getPictureUrl()}" 
+										th:xpreview="${picture.getPictureUrl()}"
+										th:src="${picture.getPictureUrl()}" ></div> -->
+										<img class="img-fluid slide-img" 
+											th:styleappend="'background: url('+ ${picture.getPictureUrl()} + ')'" 
+										th:xoriginal="${picture.getPictureUrl()}" 
+										th:xpreview="${picture.getPictureUrl()}"
+										th:src="${picture.getPictureUrl()}">
 								</div>
 							</div>
-							<a class="carousel-control-prev"
-								href="#carouselExampleIndicators" role="button"
-								data-slide="prev"> <span class="carousel-control-prev-icon"
-								aria-hidden="true"></span> <span class="sr-only">Previous</span>
-							</a> <a class="carousel-control-next"
-								href="#carouselExampleIndicators" role="button"
-								data-slide="next"> <span class="carousel-control-next-icon"
-								aria-hidden="true"></span> <span class="sr-only">Next</span>
-							</a>
 						</div>
-						
+
 
 					</div>
 					<div class="col-md-6 mt-3 mt-md-0">
@@ -127,5 +134,21 @@
 
 	<div th:replace="common/header :: footer"></div>
 	<div th:replace="common/header :: body-scripts"></div>
+	<script src="js/jquery.js"></script>
+	<script src="js/xzoom.js"></script>
+	<script>
+		$(document).ready(function(){
+			$.each($(".carousel-item > img"), function (){
+				$(this).xzoom({
+					lensCollision: true,
+
+
+				});
+			});
+		})
+		
+
+		
+	</script>
 </body>
 </html>
