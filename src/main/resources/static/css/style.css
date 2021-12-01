@@ -18,6 +18,12 @@ a {
 	color: #606975;
 }
 
+.cover-img{
+	background-position: center!important;
+    background-size: contain!important;
+    background-repeat: no-repeat!important;
+}
+
 @media (max-width: 768px) { 
   .container {
     max-width:90%;

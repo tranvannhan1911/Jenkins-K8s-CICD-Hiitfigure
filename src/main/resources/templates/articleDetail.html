@@ -49,8 +49,9 @@
 							</ol>
 							<div class="carousel-inner">
 								<div th:each="picture, idx : ${article.pictures}" class="carousel-item" th:classappend="${idx.index} == 0 ? 'active' : ''" >
-									<img th:src="${picture.getPictureUrl()}" class="d-block w-100"
-										alt="">
+									<div class="d-block w-100 cover-img" style="height: 400px;" th:styleappend="'background: url('+ ${picture.getPictureUrl()} + ')'"></div>
+									<!-- <img th:src="${picture.getPictureUrl()}" class="d-block w-100"
+										alt=""> -->
 								</div>
 							</div>
 							<a class="carousel-control-prev"
