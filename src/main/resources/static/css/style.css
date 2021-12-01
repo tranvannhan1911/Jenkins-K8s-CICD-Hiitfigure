@@ -24,6 +24,23 @@ a {
     background-repeat: no-repeat!important;
 }
 
+.preview-img{
+	border: 1px solid #ced4da;
+	display:inline-block!important;
+	width: 100px!important; 
+	height: 100px;
+}
+
+.slide-img{
+	max-height: 400px;
+    object-fit: contain;
+    background: no-repeat;
+	position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
 @media (max-width: 768px) { 
   .container {
     max-width:90%;
