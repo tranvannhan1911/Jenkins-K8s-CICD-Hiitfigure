@@ -28,10 +28,10 @@ public class ShoppingCartController {
 	
 	@RequestMapping("/cart")
 	public String shoppingCart(Model model, Authentication authentication) {		
-		User user = (User) authentication.getPrincipal();		
-		ShoppingCart shoppingCart = shoppingCartService.getShoppingCart(user);		
+		User user = (User) authentication.getPrincipal();
+		ShoppingCart shoppingCart = shoppingCartService.getShoppingCart(user);
 		model.addAttribute("cartItemList", shoppingCart.getCartItems());
-		model.addAttribute("shoppingCart", shoppingCart);		
+		model.addAttribute("shoppingCart", shoppingCart);
 		return "shoppingCart";
 	}
 

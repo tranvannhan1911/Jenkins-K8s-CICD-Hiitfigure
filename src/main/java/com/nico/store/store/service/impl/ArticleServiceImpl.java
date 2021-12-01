@@ -3,6 +3,8 @@ package com.nico.store.store.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.nico.store.store.domain.CartItem;
+import com.nico.store.store.repository.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
@@ -24,7 +26,10 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Autowired
 	private ArticleRepository articleRepository;
-	
+
+	@Autowired
+	private CartItemRepository cartItemRepository;
+
 	@Value("${articleservice.featured-items-number}")
 	private int featuredArticlesNumber;
 
@@ -60,10 +65,10 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	@CacheEvict(value = { "sizes", "categories", "brands" }, allEntries = true)
 	public void deleteArticleById(Long id) {
-		articleRepository.deleteById(id);		
+		cartItemRepository.deleteByArticleId(id);
+		articleRepository.deleteById(id);
 	}
 
-	
 	@Override
 	@Cacheable("sizes")
 	public List<String> getAllSizes() {
