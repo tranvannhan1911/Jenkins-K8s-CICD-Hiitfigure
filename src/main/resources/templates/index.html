@@ -7,7 +7,7 @@
   <div th:replace="common/header :: navbar"> </div>
 
   <div class="jumbotron-background jumbotron-fluid mt-0" th:style="'background-image: url(/image/background/adidas-background.jpg);'"></div>
-  <div class="jumbotron jumbotron-fluid mt-0 w-100 position-absolute">
+  <div class="jumbotron jumbotron-fluid d-flex align-items-center mt-0 w-100 position-absolute">
   	<div class="container">
       <div class="row text-left py-5">   
          <div class="col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-3 col-xl-6 offset-xl-6 my-auto">  
@@ -26,7 +26,7 @@
         <div class="featured-items mt-4">        
           <div class="card card-product card-featured" th:each="article : ${articles}">
             <div class="card-body">
-              <a th:href="@{/article-detail?id=}+${article.id}"><img class="card-img-top" th:src="${article.picture} ? ${article.picture} : '/image/article/itemexample.jpg'" alt="Card image cap"></a>
+              <a th:href="@{/article-detail?id=}+${article.id}"><img class="card-img" th:src="${article.picture} ? ${article.picture} : '/image/article/itemexample.jpg'" alt="Card image cap"></a>
               <a th:href="@{/article-detail?id=}+${article.id}" class="card-title" th:text="${article.title}"></a>
               <div class="price"><span th:text="'$'+${article.price}"></span></div>
             </div>              
