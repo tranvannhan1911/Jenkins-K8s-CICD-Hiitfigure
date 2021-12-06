@@ -64,9 +64,6 @@ public class ArticleController {
 				return "redirect:error";
 			}
 
-			if (file.getSize() > 1048576) { // 1mb
-				return "redirect:error";
-			}
 		}
 
 		Set<String> fileUploaded = s3Service.uploadFiles(files);
