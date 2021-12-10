@@ -1,3 +1,8 @@
+:root {
+    --img-width: 180px;
+    --img-height: 180px;
+}
+
 html {
     height: 100%;
 }
@@ -379,11 +384,6 @@ a {
     border: 0 solid;
 }
 
-/*.card .img-fluid {*/
-/*    width: 180px;*/
-/*    height: 100px;*/
-/*}*/
-
 .price {
     font-weight: 700;
     color: #e83e8c;
@@ -404,8 +404,8 @@ a {
 
 .card-product .card-body .card-img-top {
     margin: 1rem;
-    width: 180px;
-    height: 180px;
+    width: var(--img-width);
+    height: var(--img-height);
 }
 
 .card-product .card-title {
@@ -418,8 +418,8 @@ a {
 }
 
 .card-img {
-    width: 180px;
-    height: 180px;
+    width: var(--img-width);
+    height: var(--img-height);
     margin-bottom: 10px;
 }
 
