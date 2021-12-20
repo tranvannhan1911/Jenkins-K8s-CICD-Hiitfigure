@@ -30,5 +30,6 @@ HELP.md
 
 ### python ###
 /scripts/.ipynb_checkpoints/
+.DS_Store
 /src/
 /store.eml

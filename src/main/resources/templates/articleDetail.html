@@ -36,11 +36,6 @@
 			<div class="card-body">
 				<div class="row">
 					<div class="col-md-6">
-
-
-						<!-- <img class="img-fluid" th:each="picture : ${article.pictures}"
-							th:src="${picture.getPicture()}"> -->
-
 						<div id="carouselExampleIndicators" class="carousel "
 							data-ride="carousel" data-interval=false>
 							<ol class="carousel-indicators" style="margin: 0;">
@@ -58,21 +53,14 @@
 								<div th:each="picture, idx : ${article.pictures}"
 									class="carousel-item" style="height: 400px;"
 									th:classappend="${idx.index} == 0 ? 'active' : ''">
-									<!--<div class="d-block w-100 cover-img" style="height: 400px;"
-										th:styleappend="'background: url('+ ${picture.getPictureUrl()} + ')'" 
-										th:xoriginal="${picture.getPictureUrl()}" 
-										th:xpreview="${picture.getPictureUrl()}"
-										th:src="${picture.getPictureUrl()}" ></div> -->
-										<img class="img-fluid slide-img" 
-											th:styleappend="'background: url('+ ${picture.getPictureUrl()} + ')'" 
-										th:xoriginal="${picture.getPictureUrl()}" 
+									<img class="img-fluid slide-img"
+										th:styleappend="'background: url('+ ${picture.getPictureUrl()} + ')'"
+										th:xoriginal="${picture.getPictureUrl()}"
 										th:xpreview="${picture.getPictureUrl()}"
 										th:src="${picture.getPictureUrl()}">
 								</div>
 							</div>
 						</div>
-
-
 					</div>
 					<div class="col-md-6 mt-3 mt-md-0">
 						<h2 class="card-title" th:text="${article.title}"></h2>
@@ -141,8 +129,6 @@
 			$.each($(".carousel-item > img"), function (){
 				$(this).xzoom({
 					lensCollision: true,
-
-
 				});
 			});
 		})

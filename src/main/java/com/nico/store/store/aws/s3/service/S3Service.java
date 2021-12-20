@@ -25,8 +25,13 @@ public class S3Service {
 	@Value("${aws.s3.bucket.name}")
 	private String bucketName;
 
+	
+	private final AmazonS3 s3Client;
+	
 	@Autowired
-	private AmazonS3 s3Client;
+	public S3Service (AmazonS3 s3Client){
+		this.s3Client = s3Client;
+	};
 
 	public String uploadFile(MultipartFile file) {
 		File fileObj = convertMultiPartFileToFile(file);

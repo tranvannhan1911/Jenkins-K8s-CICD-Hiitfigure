@@ -1,4 +1,4 @@
-package com.nico.store.store.aws.s3.config;
+package com.nico.store.store.config;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -16,6 +16,7 @@ public class S3Config {
 
 	@Value("${cloud.aws.credentials.secret-key}")
 	private String accessSecret;
+	
 	@Value("${cloud.aws.region.static}")
 	private String region;
 

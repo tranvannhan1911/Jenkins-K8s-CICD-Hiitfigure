@@ -50,11 +50,7 @@ public class ArticleController {
 	public String addArticlePost(@ModelAttribute("article") Article article,
 			@RequestParam(value = "files") MultipartFile[] files, HttpServletRequest request) {
 		
-		if (files.length == 0 || (files.length == 1 && files[0].getSize() == 0)) {
-			return "redirect:error";
-		}
-
-		if (files.length > 5) {
+		if (files.length == 0 || (files.length == 1 && files[0].getSize() == 0) || files.length > 5) {
 			return "redirect:error";
 		}
 
@@ -63,7 +59,6 @@ public class ArticleController {
 			if (!contentType.startsWith("image/")) {
 				return "redirect:error";
 			}
-
 		}
 
 		Set<String> fileUploaded = s3Service.uploadFiles(files);
