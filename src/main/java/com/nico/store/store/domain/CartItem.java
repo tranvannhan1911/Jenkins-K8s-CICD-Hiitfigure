@@ -19,15 +19,15 @@ public class CartItem {
 	private Long id;
 	private int qty;
 	private String size;
-	
+
 	@OneToOne
 	@JoinColumn(name="article_id")
 	private Article article;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private User user;
-	
+
 	@ManyToOne
 	@JoinColumn(name="order_id")
 	private Order order;

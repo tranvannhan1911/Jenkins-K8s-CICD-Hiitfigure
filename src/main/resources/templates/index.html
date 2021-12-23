@@ -6,18 +6,18 @@
 <body class="d-flex flex-column" >
   <div th:replace="common/header :: navbar"> </div>
 
-  
-  <div class="jumbotron jumbotron-fluid mt-0" th:style="'background-image: url(/image/background/adidas-background.jpg);'">
+  <div class="jumbotron-background jumbotron-fluid mt-0" th:style="'background-image: url(/image/background/adidas-background.jpg);'"></div>
+  <div class="jumbotron jumbotron-fluid d-flex align-items-center mt-0 w-100 position-absolute">
   	<div class="container">
       <div class="row text-left py-5">   
          <div class="col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-3 col-xl-6 offset-xl-6 my-auto">  
-            <h2 class="bg-warning text-dark d-inline-block p-1">HiiT Figure</h2>
+            <h2 class="bg-warning text-dark d-inline-block p-1 ">HiiT Figure</h2>
             <h1 class="font-weight-bold">A Ticket To Childhood</h1>
             <a th:href="@{/store}" class="btn btn-primary rounded-pill" data-addclass-on-xs="btn-sm">SHOP NOW</a>       
           </div> 
       </div>
   </div>
-  </div>  
+  </div>
    
   
   <section class="section py-5 ">
@@ -42,15 +42,7 @@
   <section class="section py-5 bg-white">
     <div class="container">
       <div class="row">
-        <div class="col-sm-6 col-md-4 mb-2">
-          <div class="text-center features-card">
-            <i data-feather="truck" class="text-info"></i>
-            <h5>Free Shipping</h5>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit. Dolorum, eius, quae, aliquam.</p>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4 mb-2">
+        <div class="col-sm-6 mb-2">
           <div class="text-center features-card">
             <i data-feather="user" class="text-info"></i>
             <h5>Support 24/7</h5>
@@ -58,10 +50,10 @@
                 elit. Dolorum, eius, quae, aliquam.</p>
           </div>
         </div>
-        <div class="col-sm-6 col-md-4 mb-2">
+        <div class="col-sm-6 mb-2">
           <div class="text-center features-card">
             <i data-feather="gift" class="text-info"></i>
-            <h5>Gift cards</h5>
+            <h5>Give away</h5>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing
                 elit. Dolorum, eius, quae, aliquam.</p>
           </div>
