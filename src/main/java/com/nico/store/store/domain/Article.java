@@ -3,10 +3,15 @@ package com.nico.store.store.domain;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -19,7 +24,9 @@ public class Article {
 	private String description;
 	private int stock;	
 	private double price;
-	private String picture;
+	
+	@OneToMany(mappedBy="article", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private Set<ArticlePicture> pictures;
 	
 	@OneToMany(mappedBy="article", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Size> sizes;
@@ -117,11 +124,11 @@ public class Article {
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
 	}
-	public String getPicture() {
-		return picture;
+	public Set<ArticlePicture> getPictures() {
+		return pictures;
 	}
-	public void setPicture(String picture) {
-		this.picture = picture;
+	public void setPictures(Set<ArticlePicture> pictures) {
+		this.pictures = pictures;
 	}
-
+ 
 }

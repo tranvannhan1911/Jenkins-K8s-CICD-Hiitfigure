@@ -10,7 +10,7 @@ public class ArticleBuilder {
 	private String description;
 	private int stock;	
 	private double price;
-	private String picture;
+	private Set<String> pictures;
 	private List<String> sizes;
 	private List<String> categories;
 	private List<String> brands;
@@ -38,8 +38,8 @@ public class ArticleBuilder {
 		return this;
 	}
 	
-	public ArticleBuilder imageLink(String picture) {
-		this.picture = picture;
+	public ArticleBuilder imageLink(Set<String> pictures) {
+		this.pictures = pictures;
 		return this;
 	}
 	
@@ -64,7 +64,13 @@ public class ArticleBuilder {
 		article.setDescription(this.description);
 		article.setPrice(this.price);
 		article.setStock(this.stock);
-		article.setPicture(this.picture);		
+		if (this.pictures != null && !this.pictures.isEmpty()) {
+			Set<ArticlePicture> pictures = new HashSet<>();
+			for (String val : this.pictures) {
+				pictures.add(new ArticlePicture(article, val));
+			}	
+			article.setPictures(pictures);
+		}		
 		
 		if (this.sizes != null && !this.sizes.isEmpty()) {
 			Set<Size> sizeElements = new HashSet<>();
