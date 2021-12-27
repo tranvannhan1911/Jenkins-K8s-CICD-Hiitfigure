@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.nico.store.store.domain.Article;
 import com.nico.store.store.repository.ArticleRepository;
@@ -21,9 +20,11 @@ import com.nico.store.store.repository.ArticleSpecification;
 import com.nico.store.store.service.ArticleService;
 
 @Service
-@Transactional
 public class ArticleServiceImpl implements ArticleService {
 
+	@Value("${articleservice.featured-items-number}")
+	private int featuredArticlesNumber;
+	
 	@Autowired
 	private ArticleRepository articleRepository;
 

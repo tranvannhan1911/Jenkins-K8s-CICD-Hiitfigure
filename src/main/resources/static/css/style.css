@@ -80,6 +80,18 @@ a {
     height: 80%;
 }
 
+.jumbotron-background {
+    flex: 1 0 auto;
+    font-family: 'Roboto Slab', serif;
+    color: white;
+    background-position: bottom left;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: brightness(50%);
+    -webkit-filter: brightness(50%);
+    height: 80%;
+}
+
 .jumbotron {
 	flex: 1 0 auto;
 	font-family: 'Roboto Slab', serif;
@@ -140,7 +152,6 @@ a {
 	color: #fff;
 	margin-bottom: 0.25rem;
 	text-align: center;
-
 }
 
 .home-headline span {
@@ -270,6 +281,7 @@ a {
 }
 
 .or-divider {
+
 	position: absolute;
 	left: 50%;
 	margin-left: -1rem;
@@ -291,12 +303,12 @@ a {
 .col-register {
 	padding-left: 2rem;
 	border-left: 1px solid rgb(0, 0, 0, .125);
-
 }
 
 .col-login {
     padding-right: 2rem;
 }
+
 
 @media ( max-width : 768px) {
 	.or-divider {
@@ -457,7 +469,6 @@ a {
 	content: "<";
 	color: #787D85;
 	font-size: 30px;
-
 }
 
 .btn-size {
