@@ -50,7 +50,7 @@
                     <h3 class="font-weight-bold">$ <span th:text="${#numbers.formatDecimal(shoppingCart.getGrandTotal(), 0, 'COMMA', 2, 'POINT')}"></span></h3>
                   </div>                    
                   <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">      
-                    <a th:href="@{/shopping-cart/cart}" class="btn btn-info rounded-pill  "><i data-feather="arrow-left"></i> Edit cart</a>           
+                    <a th:href="@{/shopping-cart/cart}" class="btn btn-info rounded-pill  "><i data-feather="arrow-left"></i> Edit cart</a>
                     <a data-toggle="collapse" data-parent="#accordion"
                         class="btn btn-primary rounded-pill " href="#collapseTwo">Next <i data-feather="arrow-right"></i></a>
                   </div>
@@ -92,10 +92,6 @@
                         th:name="zipCode" required="required" />
                     </div>                                       
                   </div>
-                  <div class="mt-2 text-right">
-                    <a data-toggle="collapse" data-parent="#accordion"
-                      class="btn btn-primary rounded-pill" href="#collapseThree">Next <i data-feather="arrow-right"></i></a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -129,24 +125,6 @@
               <p style="font-size: smaller;">
                 By placing your order, you agree to Shoepp <a href="#">privacy</a>
                 notice and <a href="#">conditions</a>.</p>                   
-            </div>
-          </div>
-
-          <div class="card mt-4">
-            <div class="card-header bg-white checkout-header">PAYMENT</div>
-            <div class="card-body">
-              <div>
-                Please select payment method
-              </div>
-              <select id="select-form" class="form-select form-select-sm mt-2" aria-label=".form-select-sm example">
-                <option value="1" selected>Cash on Delivery</option>
-                <option value="2">Transfer to us</option>
-              </select>
-              <div id="cash-delivery" class="flex-column mt-2" style="display: none">
-                <span class="m-1">Account number: </span>
-                <span class="m-1">Account holder: </span>
-                <span class="m-1">Bank: </span>
-              </div>
             </div>
           </div>
         </div>
