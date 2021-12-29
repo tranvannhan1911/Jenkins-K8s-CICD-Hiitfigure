@@ -16,7 +16,7 @@ import java.util.List;
 @Configuration
 public class ApplicationConfig {
 
-    @Bean(name = "multipartResolver")
+    @Bean
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver() {
             @Override

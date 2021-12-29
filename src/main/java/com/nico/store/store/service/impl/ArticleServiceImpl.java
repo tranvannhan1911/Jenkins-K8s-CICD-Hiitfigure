@@ -31,9 +31,6 @@ public class ArticleServiceImpl implements ArticleService {
 	@Autowired
 	private CartItemRepository cartItemRepository;
 
-	@Value("${articleservice.featured-items-number}")
-	private int featuredArticlesNumber;
-
 	@Override
 	public List<Article> findAllArticles() {
 		return (List<Article>) articleRepository.findAllEagerBy();
