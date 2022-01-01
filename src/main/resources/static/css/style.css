@@ -20,7 +20,7 @@ body {
 }
 
 a {
-	color: #606975;
+    color: #606975;
 }
 
 .cover-img {
@@ -90,6 +90,18 @@ a {
 	filter: brightness(50%);
 	-webkit-filter: brightness(50%);
 	height: 80%;
+}
+
+.jumbotron-background {
+    flex: 1 0 auto;
+    font-family: 'Roboto Slab', serif;
+    color: white;
+    background-position: bottom left;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: brightness(50%);
+    -webkit-filter: brightness(50%);
+    height: 80%;
 }
 
 .jumbotron {

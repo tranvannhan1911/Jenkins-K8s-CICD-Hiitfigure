@@ -15,6 +15,17 @@
         <div class="col-lg-3 col-md-4">
           <div class="accordion accordion-caret accordion-sidebar d-none d-md-block">
             <div class="card">
+              <div class="card-body">
+                <div class="custom-checkbox custom-control pt-4">
+                  <input type="checkbox" class="custom-control-input check-all-filter" id="check-all" value="" name="brand"
+                         th:checked="${(param.category == null) and (param.pricehigh == null)
+                          and (param.pricelow == null) and (param.brand == null) and (param.search == null)
+                          and (param.sort == null) and (param.page == null)} ? checked">
+                  <label class="custom-control-label" for="check-all">All</label>
+                </div>
+              </div>
+            </div>
+            <div class="card">
               <div class="card-header">
                 <a href="#filter-categories" data-toggle="collapse" aria-expanded="true" aria-controls="filter-categories" role="button" class="h6">
                   CATEGORIES
@@ -23,7 +34,7 @@
               <div id="filter-categories" class="collapse show">
                 <div class="card-body">
                   <div th:each="item : ${allCategories}" class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" th:id="${item}" th:name="category" th:value="${item}"
+                    <input type="checkbox" class="check-categories custom-control-input" th:id="${item}" th:name="category" th:value="${item}"
                            th:checked="${((param.category != null) and (#lists.contains(param.category, item )))} ? checked">
                     <label class="custom-control-label" th:for="${item}" th:text="${item}"></label>
                   </div>
@@ -39,9 +50,9 @@
               <div id="filter-price" class="collapse show">
                 <div class="card-body">
                   <div class="d-flex justify-content-between">
-                    <input type="text" class="form-control form-control-sm rounded-pill text-center font-weight-bold bg-light mr-2 minw-0"
+                    <input type="text" class="check-price form-control form-control-sm rounded-pill text-center font-weight-bold bg-light mr-2 minw-0"
                            th:name="pricelow" th:value="${param.pricelow}">
-                    <input type="text" class="form-control form-control-sm rounded-pill text-center font-weight-bold bg-light ml-2 minw-0"
+                    <input type="text" class="check-price form-control form-control-sm rounded-pill text-center font-weight-bold bg-light ml-2 minw-0"
                            th:name="pricehigh" th:value="${param.pricehigh}">                   
                   </div>
                 </div>
@@ -56,7 +67,7 @@
               <div id="filter-size" class="collapse show">
                 <div class="card-body">
                     <div th:each="item : ${#lists.sort(allSizes)}" class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" th:id="${item}" th:name="size" th:value="${item}"
+                      <input type="checkbox" class="check-size custom-control-input" th:id="${item}" th:name="size" th:value="${item}"
                              th:checked="${((param.size != null) and (#lists.contains(param.size, item )))} ? checked">
                       <label class="custom-control-label" th:for="${item}" th:text="${item}"></label>
                     </div>
@@ -70,9 +81,9 @@
                 </a>
               </div>
               <div id="filter-brands" class="collapse show">
-                <div class="card-body">               
+                <div class="card-body">
                   <div th:each="item : ${allBrands}" class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" th:id="${item}" th:name="brand" th:value="${item}"
+                    <input type="checkbox" class="check-brand custom-control-input" th:id="${item}" th:name="brand" th:value="${item}"
                            th:checked="${((param.brand != null) and (#lists.contains(param.brand, item )))} ? checked">
                     <label class="custom-control-label" th:for="${item}" th:text="${item}"></label>
                   </div>
@@ -222,6 +233,32 @@
           }
     	});
 	});
+
+    $(function () {
+      let arr = ['.check-brand', '.check-size' , '.check-categories'];
+
+      // uncheck filter all if check any filter
+      $.each(arr, function (index, item) {
+        $(item).click(function () {
+          if ($(item).is(':checked')) {
+            $(".check-all-filter").prop('checked', false);
+          }
+        })
+      })
+      $('.check-price').keyup(function () {
+        $(".check-all-filter").prop('checked', false);
+      })
+
+      // uncheck all if check filter all
+      $(".check-all-filter").click(function () {
+        if ($(".check-all-filter").is(':checked')) {
+          $.each(arr, function (index, item) {
+            $(item).prop('checked', false);
+          })
+          $('.check-price').val('');
+        }
+      })
+    })
   </script>
 </body>
 </html>
