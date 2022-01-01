@@ -122,11 +122,11 @@
                 <button type="button" class="btn btn-light btn-sm border rounded-pill" data-toggle="dropdown" 
                         aria-haspopup="true" aria-expanded="false">                        
                   <th:block th:switch="${filters.sort}">                    
-                    <span id="dropdown-sort-text" th:case="'priceasc'">Low - High Price</span>
-                    <span id="dropdown-sort-text" th:case="'pricedesc'">High - Low Price</span>
-                    <span id="dropdown-sort-text" th:case="'alphasc'">A - Z Order</span>
-                    <span id="dropdown-sort-text" th:case="'alphdesc'">Z - A Order</span>
-                    <span id="dropdown-sort-text" th:case="*">Newest</span>
+                    <span class="dropdown-sort-text" th:case="'priceasc'">Low - High Price</span>
+                    <span class="dropdown-sort-text" th:case="'pricedesc'">High - Low Price</span>
+                    <span class="dropdown-sort-text" th:case="'alphasc'">A - Z Order</span>
+                    <span class="dropdown-sort-text" th:case="'alphdesc'">Z - A Order</span>
+                    <span class="dropdown-sort-text" th:case="*">Newest</span>
                   </th:block>      
                   <i data-feather="chevron-down"></i>
                 </button>
@@ -148,7 +148,7 @@
               <div class="card card-product" th:each="article : ${articles}">
                 <div class="card-body">
                   <a th:href="@{/article-detail?id=}+${article.id}">
-                  	<img class="card-img-top" th:src="${article.pictures} ? ${article.pictures[0].getPictureUrl()} : '/image/article/itemexample.jpg'" alt="Card image cap">
+                  	<img class="card-img-top" th:src="${article.pictures.size() > 0} ? ${article.pictures[0].getPictureUrl()} : '/image/article/itemexample.jpg'" alt="Card image cap">
                   </a>
                   <a th:href="@{/article-detail?id=}+${article.id}" class="card-title" th:text="${article.title}"></a>
                   <div class="price"><span class="h5" th:text="'$'+${#numbers.formatDecimal(article.price, 0, T(Math).round(article.price) == article.price ? 0 : 2)}"> </span></div>
@@ -212,7 +212,7 @@
       var value = $(this).val()
       var text = $(this).text()      
       $('#input-sort').val(value)
-      $('#dropdown-sort-text').text(text)      
+      $('.dropdown-sort-text').text(text)
       $('#filter-form').submit()     
     }) 
     
