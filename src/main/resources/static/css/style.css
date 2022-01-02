@@ -108,9 +108,7 @@ a {
 	flex: 1 0 auto;
 	font-family: 'Roboto Slab', serif;
 	color: white;
-	background-position: bottom left;
-	background-repeat: no-repeat;
-	background-size: cover;
+	background: none;
 	height: 80%;
 }
 
