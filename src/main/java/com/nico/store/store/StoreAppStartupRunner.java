@@ -11,12 +11,16 @@ import com.nico.store.store.service.UserService;
 @Component
 public class StoreAppStartupRunner implements CommandLineRunner{
 
+	private final UserService userService;
+
 	@Autowired
-	private UserService userService;
-	
+	public StoreAppStartupRunner(UserService userService) {
+		this.userService = userService;
+	}
+
 	@Override
 	public void run(String... args) throws Exception {
-		userService.createUser("admin", "admin", "admin@admin.com", Arrays.asList("ROLE_USER", "ROLE_ADMIN"));	
+		userService.createUser("admin", "admin@hiitfigure.com", "admin", Arrays.asList("ROLE_USER", "ROLE_ADMIN"));
 	}
 }
 
