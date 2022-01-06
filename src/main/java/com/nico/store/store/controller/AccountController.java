@@ -150,8 +150,11 @@ public class AccountController {
 	}
 	
 	@RequestMapping("/order-detail")
-	public String orderDetail(@RequestParam("order") Long id, Model model) {
+	public String orderDetail(@RequestParam("order") Long id, Model model, Authentication authentication) throws Exception {
+		User user = (User) authentication.getPrincipal();
 		Order order = orderService.findOrderWithDetails(id);
+		if(true)
+			throw new Exception ("User not found");
 		model.addAttribute("order", order);
 		return "orderDetails";
 	}
