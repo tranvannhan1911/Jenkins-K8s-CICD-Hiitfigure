@@ -1,10 +1,10 @@
 package com.nico.store.store.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-
-import com.nico.store.store.domain.CartItem;
+import com.nico.store.store.domain.Article;
+import com.nico.store.store.repository.ArticleRepository;
+import com.nico.store.store.repository.ArticleSpecification;
 import com.nico.store.store.repository.CartItemRepository;
+import com.nico.store.store.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
@@ -13,11 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.nico.store.store.domain.Article;
-import com.nico.store.store.repository.ArticleRepository;
-import com.nico.store.store.repository.ArticleSpecification;
-import com.nico.store.store.service.ArticleService;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -33,14 +32,13 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public List<Article> findAllArticles() {
-		return (List<Article>) articleRepository.findAllEagerBy();
+		return articleRepository.findAllEagerBy();
 	}
 	
 	@Override
 	public Page<Article> findArticlesByCriteria(Pageable pageable, Integer priceLow, Integer priceHigh, 
-										List<String> sizes, List<String> categories, List<String> brands, String search) {		
-		Page<Article> page = articleRepository.findAll(ArticleSpecification.filterBy(priceLow, priceHigh, sizes, categories, brands, search), pageable);
-        return page;		
+										List<String> sizes, List<String> categories, List<String> brands, String search) {
+		return articleRepository.findAll(ArticleSpecification.filterBy(priceLow, priceHigh, sizes, categories, brands, search), pageable);
 	}	
 	
 	@Override
@@ -51,7 +49,7 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public Article findArticleById(Long id) {
 		Optional<Article> opt = articleRepository.findById(id);
-		return opt.get();
+		return opt.orElse(null);
 	}
 
 	@Override
@@ -62,6 +60,7 @@ public class ArticleServiceImpl implements ArticleService {
 	
 	@Override
 	@CacheEvict(value = { "sizes", "categories", "brands" }, allEntries = true)
+	@Transactional
 	public void deleteArticleById(Long id) {
 		cartItemRepository.deleteByArticleId(id);
 		articleRepository.deleteById(id);

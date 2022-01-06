@@ -18,9 +18,15 @@
         <javax.mail.version>1.4.7</javax.mail.version>
         <spring.cloud.version>2.2.6.RELEASE</spring.cloud.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
+        <lombok.version>1.18.22</lombok.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>

@@ -1,32 +1,30 @@
 package com.nico.store.store.service.impl;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-
 import com.nico.store.store.domain.Article;
 import com.nico.store.store.domain.CartItem;
 import com.nico.store.store.domain.ShoppingCart;
 import com.nico.store.store.domain.User;
 import com.nico.store.store.repository.CartItemRepository;
 import com.nico.store.store.service.ShoppingCartService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
 	@Autowired
 	private CartItemRepository cartItemRepository;
-	
+
 	@Override
 	public ShoppingCart getShoppingCart(User user) {
 		return new ShoppingCart(cartItemRepository.findAllByUserAndOrderIsNull(user));
 	}
-	
+
 	@Override
-	@Cacheable("itemcount")
+	@CacheEvict("itemcount")
 	public int getItemsNumber(User user) {
 		return cartItemRepository.countDistinctByUserAndOrderIsNull(user);
 	}
@@ -34,7 +32,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	@Override
 	public CartItem findCartItemById(Long cartItemId) {
 		Optional<CartItem> opt = cartItemRepository.findById(cartItemId);
-		return opt.get();
+		return opt.orElse(null);
 	}
 
 	@Override
@@ -53,8 +51,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			cartItem.setQty(qty);
 			cartItem.setSize(size);
 			cartItem = cartItemRepository.save(cartItem);
-		}		
-		return cartItem;	
+		}
+		return cartItem;
 	}
 
 	@Override
@@ -62,7 +60,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	public void removeCartItem(CartItem cartItem) {
 		cartItemRepository.deleteById(cartItem.getId());
 	}
-	
+
 	@Override
 	@CacheEvict(value = "itemcount", allEntries = true)
 	public void updateCartItem(CartItem cartItem, Integer qty) {
@@ -77,6 +75,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	@Override
 	@CacheEvict(value = "itemcount", allEntries = true)
 	public void clearShoppingCart(User user) {
-		cartItemRepository.deleteAllByUserAndOrderIsNull(user);	
-	}	
+		cartItemRepository.deleteAllByUserAndOrderIsNull(user);
+	}
 }
