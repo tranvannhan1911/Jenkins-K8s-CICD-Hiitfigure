@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.nico.store.store.domain.Address;
 import com.nico.store.store.domain.Order;
 import com.nico.store.store.domain.User;
+import com.nico.store.store.domain.security.UserRole;
 import com.nico.store.store.service.OrderService;
 import com.nico.store.store.service.UserService;
 import com.nico.store.store.service.impl.UserSecurityService;
@@ -153,8 +154,22 @@ public class AccountController {
 	public String orderDetail(@RequestParam("order") Long id, Model model, Authentication authentication) throws Exception {
 		User user = (User) authentication.getPrincipal();
 		Order order = orderService.findOrderWithDetails(id);
-		if(true)
-			throw new Exception ("User not found");
+		
+		if(order == null || user == null)
+			return "redirect:/";
+		
+		boolean isAdmin = false;
+		for (UserRole userRole : user.getUserRoles()) {
+			if(userRole.getRole().getName().equals("ROLE_ADMIN")) {
+				isAdmin = true;
+				break;
+			}
+		}  
+		
+		if(!isAdmin && user.getId() != order.getUser().getId()) {
+			return "redirect:/";
+		}
+		
 		model.addAttribute("order", order);
 		return "orderDetails";
 	}
