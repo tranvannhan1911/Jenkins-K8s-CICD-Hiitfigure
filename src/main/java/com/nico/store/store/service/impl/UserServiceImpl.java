@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findById(Long id) {
 		Optional<User> opt = userRepository.findById(id);
-		return opt.get();
+		return opt.orElse(null);
 	}
 	
 	@Override
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public User createUser(String username, String password, String email, List<String> roles) {
+	public User createUser(String username, String email, String password, List<String> roles) {
 		User user = findByUsername(username);
 		if (user != null) {
 			return user;

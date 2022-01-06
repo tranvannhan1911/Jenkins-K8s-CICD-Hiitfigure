@@ -1,134 +1,70 @@
 package com.nico.store.store.domain;
 
+import lombok.Data;
+
+import javax.persistence.*;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-
 @Entity
+@Data
 public class Article {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String title;
 	private String description;
-	private int stock;	
+	private int stock;
 	private double price;
-	
-	@OneToMany(mappedBy="article", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+
+	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<ArticlePicture> pictures;
-	
-	@OneToMany(mappedBy="article", cascade = CascadeType.ALL, orphanRemoval = true)
+
+	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Size> sizes;
-	
-	@OneToMany(mappedBy="article", cascade = CascadeType.ALL, orphanRemoval = true)
+
+	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Brand> brands;
-	
-	@OneToMany(mappedBy="article", cascade = CascadeType.ALL, orphanRemoval = true)
+
+	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Category> categories;
 
-	public Article() {
-	}
-	
 	public boolean hasStock(int amount) {
 		return (this.getStock() > 0) && (amount <= this.getStock());
 	}
-	
+
 	public void decreaseStock(int amount) {
 		this.stock -= amount;
 	}
-	
+
 
 	public void addSize(Size size) {
-        sizes.add(size);
-        size.setArticle(this);
-    }
- 
-    public void removeSize(Size size) {
-        sizes.remove(size);
-        size.setArticle(null);
-    }
-    
+		sizes.add(size);
+		size.setArticle(this);
+	}
+
+	public void removeSize(Size size) {
+		sizes.remove(size);
+		size.setArticle(null);
+	}
+
 	public void addCategory(Category category) {
-        categories.add(category);
-        category.setArticle(this);
-    }
- 
-    public void removeCategory(Category category) {
-    	categories.remove(category);
-        category.setArticle(null);
-    }
-    
+		categories.add(category);
+		category.setArticle(this);
+	}
+
+	public void removeCategory(Category category) {
+		categories.remove(category);
+		category.setArticle(null);
+	}
+
 	public void addSize(Brand brand) {
-        brands.add(brand);
-        brand.setArticle(this);
-    }
- 
-    public void removeSize(Brand brand) {
-    	brands.remove(brand);
-        brand.setArticle(null);
-    }
-	
-	
-	public Long getId() {
-		return id;
+		brands.add(brand);
+		brand.setArticle(this);
 	}
-	public void setId(Long id) {
-		this.id = id;
+
+	public void removeSize(Brand brand) {
+		brands.remove(brand);
+		brand.setArticle(null);
 	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getDescription() { return description;}
-	public void setDescription(String description) { this.description = description;}
-	public double getPrice() {
-		return price;
-	}
-	public void setPrice(double price) {
-		this.price = price;
-	}
-	public int getStock() {
-		return stock;
-	}
-	public void setStock(int stock) {
-		this.stock = stock;
-	}
-	public Set<Size> getSizes() {
-		return sizes;
-	}
-	public void setSizes(Set<Size> sizes) {
-		this.sizes = sizes;
-	}
-	public Set<Brand> getBrands() {
-		return brands;
-	}
-	public void setBrands(Set<Brand> brands) {
-		this.brands = brands;
-	}
-	public Set<Category> getCategories() {
-		return categories;
-	}
-	public void setCategories(Set<Category> categories) {
-		this.categories = categories;
-	}
-	public Set<ArticlePicture> getPictures() {
-		return pictures;
-	}
-	public void setPictures(Set<ArticlePicture> pictures) {
-		this.pictures = pictures;
-	}
- 
 }
