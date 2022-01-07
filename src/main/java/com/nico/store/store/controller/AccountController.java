@@ -103,7 +103,7 @@ public class AccountController {
 		if (invalidFields) {
 			return "redirect:/login";
 		}		
-		user = userService.createUser(user.getUsername(), password,  user.getEmail(), Arrays.asList("ROLE_USER"));	
+		user = userService.createUser(user.getUsername(),  user.getEmail(), password, Arrays.asList("ROLE_USER"));	
 		userSecurityService.authenticateUser(user.getUsername());
 		return "redirect:/my-profile";  
 	}
