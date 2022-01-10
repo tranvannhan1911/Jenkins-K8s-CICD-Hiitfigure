@@ -31,3 +31,4 @@ HELP.md
 
 ### python ###
 /scripts/.ipynb_checkpoints/
+/.apt_generated_tests/
