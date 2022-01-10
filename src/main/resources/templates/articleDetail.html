@@ -72,7 +72,7 @@
 								(<span th:text="${article.stock}"></span> in stock)
 							</h6>
 						</div>
-						<p class="d-none d-lg-block" th:text="${article.description}"></p>
+						<p class="d-lg-block" th:text="${article.description}"></p>
 						<form th:action="@{/shopping-cart/add-item}" method="post">
 							<input hidden="hidden" th:field="*{article.id}">
 							<div class="form-row">
@@ -104,14 +104,23 @@
 							</div>
 						</form>
 						<hr>
-						<div class="pt-1 mb-2">
-							<span class="text-medium">Brand:</span> Adidas
+						<div class="pt-1 mb-2 d-flex">
+							<span class="text-medium">Brand:&nbsp</span>
+							<div th:each="brand, iState: ${article.brands}" class="d-flex">
+								<p th:text="${brand.name}"></p>
+								<div th:if="${article.brands.size() > 1} and !${iState.last}">
+									<p>,&nbsp</p>
+								</div>
+							</div>
 						</div>
-						<div class="padding-bottom-1x mb-2">
-							<span class="text-medium">Categories:&nbsp;</span><a
-								class="navi-link" href="#">Men’s shoes,</a><a class="navi-link"
-								href="#"> Snickers,</a><a class="navi-link" href="#"> Sport
-								shoes</a>
+						<div class="padding-bottom-1x mb-2 d-flex">
+							<span class="text-medium">Categories:&nbsp</span>
+							<div th:each="category, iState: ${article.categories}" class="d-flex">
+								<p th:text="${category.name}"></p>
+								<div th:if="${article.categories.size() > 1} and !${iState.last}">
+									<p>,&nbsp</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
