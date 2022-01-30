@@ -126,7 +126,7 @@
                     <span class="dropdown-sort-text" th:case="'pricedesc'">Giá Cao - Thấp</span>
                     <span class="dropdown-sort-text" th:case="'alphasc'">Sản Phẩm A - Z</span>
                     <span class="dropdown-sort-text" th:case="'alphdesc'">Sản Phẩm Z - A</span>
-                    <span class="dropdown-sort-text" th:case="*">Newest</span>
+                    <span class="dropdown-sort-text" th:case="*">Mới Nhất</span>
                   </th:block>      
                   <i data-feather="chevron-down"></i>
                 </button>
@@ -151,7 +151,7 @@
                   	<img class="card-img-top" th:src="${article.pictures.size() > 0} ? ${article.pictures[0].getPictureUrl()} : '/image/article/itemexample.jpg'" alt="Card image cap">
                   </a>
                   <a th:href="@{/article-detail?id=}+${article.id}" class="card-title" th:text="${article.title}"></a>
-                  <div class="price"><span class="h5" th:text="'K'+${#numbers.formatDecimal(article.price, 0, T(Math).round(article.price) == article.price ? 0 : 2)}"> </span></div>
+                  <div class="price"><span class="h5" th:text="${#numbers.formatDecimal(article.price, 0, T(Math).round(article.price) == article.price ? 0 : 2)}+'K'"> </span></div>
                 </div>              
               </div>
           </div>      
