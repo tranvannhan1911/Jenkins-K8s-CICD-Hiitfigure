@@ -7,7 +7,7 @@
   <div th:replace="common/header :: navbar"> </div>
   <div class="container page-content">  
     <div class="row">
-      <div class="col-12 col-sm-6 col-lg-4 mb-2 text-center text-left-lg">
+      <div class="col-12 col-sm-6 col-lg-6 mb-2 text-center text-left-lg">
         <h5 class="font-weight-bold">Order details</h5>
         <div class="list-group list-group-flush list-group-no-border list-group-sm">
           <div><strong>Date: </strong><span th:text="${#dates.format(order.orderDate, 'dd-MMM-yyyy')}"></span></div>
@@ -16,7 +16,7 @@
         </div>        
         <hr class="d-block d-sm-none">
       </div>
-      <div class="col-12 col-sm-6 col-lg-4 mb-2 text-center">
+      <div class="col-12 col-sm-6 col-lg-6 mb-2 text-center">
         <h5 class="font-weight-bold">Shipping</h5>
         <div class="list-group list-group-flush list-group-no-border list-group-sm">
           <div><strong>Receiver: </strong><span th:text="${order.shipping.receiver}"></span></div>
@@ -26,14 +26,6 @@
           <div><strong>Zip Code: </strong><span th:text="${order.shipping.address.zipCode}"></span></div>
         </div>
         <hr class="d-block d-sm-none">        
-      </div>
-      <div class="col-12 col-sm-6 col-lg-4 mb-2 text-center">
-        <h5 class="font-weight-bold">Payment</h5>
-        <div class="list-group list-group-flush list-group-no-border list-group-sm">
-          <div><strong>Credit card: </strong><span th:text="${order.payment.type}"></span></div>    
-          <div><strong>Card owner: </strong><span th:text="${order.payment.holderName}"></span></div>
-          <div><strong>Card number: </strong><span th:text="${order.payment.cardNumber}"></span></div>
-        </div>
       </div>
     </div>
     <hr>

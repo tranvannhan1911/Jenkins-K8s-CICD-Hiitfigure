@@ -183,6 +183,10 @@ a {
     padding: 0.3125rem 1.375rem;
 }
 
+.link-text {
+	color: #007bff;
+}
+
 .list-group-no-border .list-group-item {
 	margin-bottom: 0;
 	border: 0
