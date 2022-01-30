@@ -66,12 +66,13 @@
 						<div class="d-flex align-items-center">
 							<h2 class="price font-weight-bold mr-3">
 								<span
-									th:text="'$'+${#numbers.formatDecimal(article.price, 0, T(Math).round(article.price) == article.price ? 0 : 2)}"></span>
+									th:text="${#numbers.formatDecimal(article.price, 0, T(Math).round(article.price) == article.price ? 0 : 2)}+'K'"></span>
 							</h2>
 							<h6>
-								(<span th:text="${article.stock}"></span> in stock)
+								(<span th:text="${article.stock}"></span> trong kho)
 							</h6>
 						</div>
+						<label class="font-weight-bold" for="quantity">Mô Tả</label>
 						<p class="d-lg-block" th:text="${article.description}"></p>
 						<form th:action="@{/shopping-cart/add-item}" method="post">
 							<input hidden="hidden" th:field="*{article.id}">
