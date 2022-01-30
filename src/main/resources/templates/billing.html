@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org./1999/xhtml">
+<head th:replace="common/header :: common-header" />
+
+
+<body class="d-flex flex-column">
+
+<div th:replace="adminHome :: navbarAdmin"> </div>
+
+<div class="container page-content">
+  <div class="row">
+
+    <div class="col mt-3 mt-md-0">
+      <div class="card">
+        <div class="card-body">
+          <h3>Billing</h3><hr>
+          <div class="table-responsive">
+            <table class="table table-hover" data-addclass-on-xs="table-sm">
+              <thead class="thead-light">
+              <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">User Name</th>
+                <th scope="col">Date</th>
+                <th scope="col" class="text-right">Total</th>
+                <th scope="col" class="text-center">Status</th>
+                <th scope="col" class="text-center">Confirm</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="order : ${orders}">
+                <form th:action="@{/order/billing}" th:method="put"
+                      th:object="${order}">
+                  <input th:name="id" th:value="${order.id}" type="hidden" />
+                  <td th:value="${order.id}"  ><a th:href="@{/order/order-detail?order=}+${order.id}" class="text-primary">ORD<span th:text="${order.id}" ></span></a></td>
+                  <td th:text="${order.user != null} ? ${order.user.username} : ${''}" th:value="${order.user != null} ? ${order.user.username} : ${''}"></td>
+                  <td th:text="${#dates.format(order.orderDate, 'dd-MM-yyyy')}" th:value="${#dates.format(order.orderDate, 'dd-MM-yyyy')}"></td>
+                  <td class="text-right">$<span th:text="${order.orderTotal}" th:value="${order.orderTotal}"></span></td>
+                  <td class="text-right" >
+                    <select class="form-control-sm" name="orderStatus">
+                      <option th:each="status : ${statuses}"
+                              th:value="${status}"
+                              th:text="${status}"
+                              th:selected="${status==order.orderStatus}">
+                      </option>
+                    </select>
+                  </td>
+                  <td class="text-center"><button type="submit" >Update</button></td>
+                </form>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div> <!--  end container -->
+
+<div th:replace="common/header :: footer"> </div>
+
+
+<div th:replace="common/header :: body-scripts"> </div>
+</body>
+</html>

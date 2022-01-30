@@ -43,6 +43,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		if (cartItem != null && cartItem.hasSameSizeThan(size)) {
 			cartItem.addQuantity(qty);
 			cartItem.setSize(size);
+			cartItem.setPrice(article.getPrice());
 			cartItem = cartItemRepository.save(cartItem);
 		} else {
 			cartItem = new CartItem();
@@ -50,6 +51,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			cartItem.setArticle(article);
 			cartItem.setQty(qty);
 			cartItem.setSize(size);
+			cartItem.setPrice(article.getPrice());
 			cartItem = cartItemRepository.save(cartItem);
 		}
 		return cartItem;

@@ -19,6 +19,7 @@ public class CartItem {
 	private Long id;
 	private int qty;
 	private String size;
+	private double price;
 
 	@OneToOne
 	@JoinColumn(name="article_id")
@@ -40,7 +41,10 @@ public class CartItem {
 	}
 	
 	public BigDecimal getSubtotal() {
-		return new BigDecimal(article.getPrice()).multiply(new BigDecimal(qty));
+		if(order == null)
+			return new BigDecimal(getArticle().getPrice()).multiply(new BigDecimal(qty));
+		
+		return new BigDecimal(price).multiply(new BigDecimal(qty));
 	}
 
 	public void addQuantity(int qty) {
@@ -89,6 +93,14 @@ public class CartItem {
 	}
 	public void setSize(String size) {
 		this.size = size;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 	

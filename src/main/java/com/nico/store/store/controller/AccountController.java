@@ -150,28 +150,4 @@ public class AccountController {
 		return "myProfile";
 	}
 	
-	@RequestMapping("/order-detail")
-	public String orderDetail(@RequestParam("order") Long id, Model model, Authentication authentication) throws Exception {
-		User user = (User) authentication.getPrincipal();
-		Order order = orderService.findOrderWithDetails(id);
-		
-		if(order == null || user == null)
-			return "redirect:/";
-		
-		boolean isAdmin = false;
-		for (UserRole userRole : user.getUserRoles()) {
-			if(userRole.getRole().getName().equals("ROLE_ADMIN")) {
-				isAdmin = true;
-				break;
-			}
-		}  
-		
-		if(!isAdmin && user.getId() != order.getUser().getId()) {
-			return "redirect:/";
-		}
-		
-		model.addAttribute("order", order);
-		return "orderDetails";
-	}
-	
 }

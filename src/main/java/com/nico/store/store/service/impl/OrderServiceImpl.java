@@ -42,14 +42,13 @@ public class OrderServiceImpl implements OrderService {
 		order.setUser(user);
 		order.setPayment(payment);
 		order.setShipping(shipping);
-		order.setOrderTotal(shoppingCart.getGrandTotal());
 		shipping.setOrder(order);
 		payment.setOrder(order);			
 		LocalDate today = LocalDate.now();
 		LocalDate estimatedDeliveryDate = today.plusDays(5);				
 		order.setOrderDate(Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		order.setShippingDate(Date.from(estimatedDeliveryDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-		order.setOrderStatus("In Progress");
+		order.setOrderStatus("Wait for confirmation");
 		
 		order = orderRepository.save(order);
 		
@@ -59,18 +58,29 @@ public class OrderServiceImpl implements OrderService {
 			article.decreaseStock(item.getQty());
 			articleRepository.save(article);
 			item.setOrder(order);
+			item.setPrice(item.getArticle().getPrice());
 			cartItemRepository.save(item);
 		}		
+		
+		order.setOrderTotal(shoppingCart.getGrandTotal());
+		order = orderRepository.save(order);
 		return order;	
 	}
 	
 	@Override
 	public Order findOrderWithDetails(Long id) {
 		return orderRepository.findEagerById(id);
-	}	
+	}
+
+	@Override
+	public Order saveOrder(Order order) {
+		return orderRepository.save(order);
+	}
 
 	public List<Order> findByUser(User user) {
 		return orderRepository.findByUser(user);
 	}
+
+	public List<Order> findAllOrder() { return (List<Order>) orderRepository.findAll();}
 
 }

@@ -18,7 +18,7 @@ public class ObjectMapper {
 	public static <T> T toDTO(Object obj, Class<T> clazz) {
 		if (clazz == ArticleDTO.class) {
 			return clazz.cast(toArticleDTO(obj));
-		} else if (clazz == UserDTO.class) {
+		}  else if (clazz == UserDTO.class) {
 			return clazz.cast(toUserDTO(obj));
 		} else {
 			return null;
