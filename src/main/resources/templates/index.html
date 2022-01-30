@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.w3.org./1999/xhtml">
-<head th:replace="common/header :: common-header" />
+<head th:replace="common/header :: common-header"  />
+
 
 
 <body class="d-flex flex-column" >
@@ -22,7 +23,7 @@
   
   <section class="section py-5 ">
     <div class="container text-center">
-      <h4 class="font-weight-bold ">Featured products</h4>
+      <h4 class="font-weight-bold ">Sản Phẩm Nổi Bật</h4>
         <div class="featured-items mt-4">        
           <div class="card card-product card-featured" th:each="article : ${articles}">
             <div class="card-body">
@@ -45,17 +46,15 @@
         <div class="col-sm-6 mb-2">
           <div class="text-center features-card">
             <i data-feather="user" class="text-info"></i>
-            <h5>Support 24/7</h5>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit. Dolorum, eius, quae, aliquam.</p>
+            <h5>Hỗ trợ 24/7</h5>
+            <p>Khách hàng ưu tiên, luôn sẵn sàng hỗ trợ Quý khách hàng mọi lúc mọi nơi.</p>
           </div>
         </div>
         <div class="col-sm-6 mb-2">
           <div class="text-center features-card">
             <i data-feather="gift" class="text-info"></i>
-            <h5>Give away</h5>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit. Dolorum, eius, quae, aliquam.</p>
+            <h5>Quà tặng</h5>
+            <p>Like/Follow Fanpage để luôn nhận những phần quà may mắn.</p>
           </div>
         </div>        
       </div>

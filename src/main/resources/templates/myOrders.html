@@ -17,10 +17,10 @@
             <small class="text-secondary" th:text="'Last seen '+${#dates.format(#dates.createNow(), 'MMM dd, yyyy')}"></small>       
           </div>
           <div class="list-group list-group-flush">
-            <a th:href="@{/my-profile}" class="list-group-item list-group-item-action"><i data-feather="user" class="mr-3"></i> Profile</a>
-            <a th:href="@{/my-orders}" class="list-group-item list-group-item-action active"><i data-feather="shopping-bag" class="mr-3"></i> Orders</a>
-            <a th:href="@{/my-address}" class="list-group-item list-group-item-action"><i data-feather="map" class="mr-3"></i> Address</a>
-            <a th:href="@{/logout}" class="list-group-item list-group-item-action text-danger"><i data-feather="log-out" class="mr-3"></i> Logout</a>
+            <a th:href="@{/my-profile}" class="list-group-item list-group-item-action"><i data-feather="user" class="mr-3"></i> Thông tin</a>
+            <a th:href="@{/my-orders}" class="list-group-item list-group-item-action active"><i data-feather="shopping-bag" class="mr-3"></i> Hoá đơn</a>
+            <a th:href="@{/my-address}" class="list-group-item list-group-item-action"><i data-feather="map" class="mr-3"></i> Địa chỉ</a>
+            <a th:href="@{/logout}" class="list-group-item list-group-item-action text-danger"><i data-feather="log-out" class="mr-3"></i> Đăng xuất</a>
           </div>
         </div>
       </div>
@@ -28,22 +28,22 @@
        <div class="col mt-3 mt-md-0">
           <div class="card">
             <div class="card-body">
-              <h3>My Orders</h3><hr>
+              <h3>Đơn Hàng Đã Đặt</h3><hr>
               <div class="table-responsive">
                 <table class="table table-hover" data-addclass-on-xs="table-sm">
                   <thead class="thead-light">
                     <tr>
-                      <th scope="col">Order ID</th>
-                      <th scope="col">Date</th>
-                      <th scope="col" class="text-right">Total</th>
-                      <th scope="col" class="text-center">Status</th>
+                      <th scope="col">ID Hóa đơn</th>
+                      <th scope="col">Ngày đặt</th>
+                      <th scope="col" class="text-right">Tổng tiền</th>
+                      <th scope="col" class="text-center">Tình trạng</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr th:each="order : ${orders}">
                       <th scope="row" ><a th:href="@{/order/order-detail?order=}+${order.id}" class="text-primary">ORD<span th:text="${order.id}"></span></a></th>
                       <td th:text="${#dates.format(order.orderDate, 'dd-MMM-yyyy')}"></td>
-                      <td class="text-right">$<span th:text="${order.orderTotal}"></span></td>
+                      <td class="text-right">K<span th:text="${order.orderTotal}"></span></td>
                       <td class="text-center"><span class="badge badge-info rounded" th:text="${order.orderStatus}"></span></td>
                     </tr>                    
                   </tbody>

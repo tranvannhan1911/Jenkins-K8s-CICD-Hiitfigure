@@ -8,26 +8,26 @@
 		<form th:action="@{/article/edit}" method="post"
 			enctype="multipart/form-data">
 			<fieldset>
-				<legend class="center-block"> Edit Article Information </legend>
+				<legend class="center-block"> Sửa Thông Tin Sản Phẩm </legend>
 
 				<input hidden="hidden" name="id" th:value="${article.id}">
 
 				<div class="form-group row">
-					<label for="title" class="col-2 col-form-label text-right">Title</label>
+					<label for="title" class="col-2 col-form-label text-right">Tên Sản Phẩm</label>
 					<div class="col-6">
 						<input th:value="${article.title}" type="text"
 							class="form-control" id="title" name="title">
 					</div>
 				</div>
 				<div class="form-group row">
-					<label for="description" class="col-2 col-form-label text-right">Description</label>
+					<label for="description" class="col-2 col-form-label text-right">Mô Tả</label>
 					<div class="col-6">
 						<textarea th:text="${article.description}" class="form-control"
 							id="description" name="description" maxlength="250"></textarea>
 					</div>
 				</div>
 				<div class="form-group row">
-					<label for="category" class="col-2 col-form-label text-right">Category</label>
+					<label for="category" class="col-2 col-form-label text-right">Thể Loại</label>
 					<div class="col-6">
 						<input type="text" class="form-control" id="categories"
 							name="category" data-role="tagsinput"
@@ -53,7 +53,7 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<label for="brand" class="col-2 col-form-label text-right">Brand</label>
+					<label for="brand" class="col-2 col-form-label text-right">Nhãn Hàng</label>
 					<div class="col-6">
 						<input type="text" class="form-control" id="brands" name="brand"
 							data-role="tagsinput" th:value="${preselectedBrands}">
@@ -67,30 +67,28 @@
 				</div>
 
 				<div class="form-group row">
-					<label for="price" class="col-2 col-form-label text-right">Price</label>
+					<label for="price" class="col-2 col-form-label text-right">Đơn Giá</label>
 					<div class="col-6 input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="basic-addon1">$</span>
 						</div>
-						<input th:value="${article.price}" type="number" name="price"
+						<input th:value="K{article.price}" type="number" name="price"
 							step="0.1" class="form-control" id="price"
-							placeholder="List Price" />
+							placeholder="Việt Nam Đồng" />
 					</div>
 				</div>
 
 				<div class="form-group row">
-					<label for="stock" class="col-2 col-form-label text-right">Available
-						stock</label>
+					<label for="stock" class="col-2 col-form-label text-right">Số Lượng Hiện Có</label>
 					<div class="col-6">
 						<input th:value="${article.stock}" type="number" name="stock"
-							class="form-control" id="stock" placeholder="Number of in-stock" />
+							class="form-control" id="stock" placeholder="Kho" />
 					</div>
 				</div>
 
 
 				<div class="form-group row">
-					<label for="picture" class="col-2 col-form-label text-right">Article
-						image</label>
+					<label for="picture" class="col-2 col-form-label text-right">Hình ảnh</label>
 					<div class="col-6">
 						<input type="file" class="form-control" id="files" name="files"
 							multiple>
@@ -117,9 +115,8 @@
 
 				<div class="form-group row">
 					<div class="offset-2 col-6">
-						<button type="submit" class="btn btn-success">Update
-							Article</button>
-						<a class="btn btn-danger" th:href="@{/admin}">Cancel</a>
+						<button type="submit" class="btn btn-success">Cập Nhật</button>
+						<a class="btn btn-danger" th:href="@{/admin}">Hủy</a>
 					</div>
 				</div>
 			</fieldset>

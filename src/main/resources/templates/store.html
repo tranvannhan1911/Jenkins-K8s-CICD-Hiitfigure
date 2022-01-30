@@ -21,14 +21,14 @@
                          th:checked="${(param.category == null) and (param.pricehigh == null)
                           and (param.pricelow == null) and (param.brand == null) and (param.search == null)
                           and (param.sort == null) and (param.page == null)} ? checked">
-                  <label class="custom-control-label" for="check-all">All</label>
+                  <label class="custom-control-label" for="check-all">TẤT CẢ</label>
                 </div>
               </div>
             </div>
             <div class="card">
               <div class="card-header">
                 <a href="#filter-categories" data-toggle="collapse" aria-expanded="true" aria-controls="filter-categories" role="button" class="h6">
-                  CATEGORIES
+                  THỂ LOẠI
                 </a>
               </div>
               <div id="filter-categories" class="collapse show">
@@ -44,7 +44,7 @@
             <div class="card">
               <div class="card-header">
                 <a href="#filter-price" data-toggle="collapse" aria-expanded="true" aria-controls="filter-price" role="button" class="h6">
-                  PRICE
+                  ĐƠN GIÁ
                 </a>
               </div>
               <div id="filter-price" class="collapse show">
@@ -61,7 +61,7 @@
             <div class="card">
               <div class="card-header">
                 <a href="#filter-size" data-toggle="collapse" aria-expanded="true" aria-controls="filter-size" role="button" class="h6">
-                  SIZE
+                  KÍCH THƯỚC
                 </a>
               </div>
               <div id="filter-size" class="collapse show">
@@ -77,7 +77,7 @@
             <div class="card">
               <div class="card-header">
                 <a href="#filter-brands" data-toggle="collapse" aria-expanded="true" aria-controls="filter-brands" role="button" class="h6">
-                  BRANDS
+                  NHÃN HÀNG
                 </a>
               </div>
               <div id="filter-brands" class="collapse show">
@@ -110,7 +110,7 @@
                   <i data-feather="filter"></i> Filter</button>
                 <div class="input-group input-group-search input-group-sm mb-2">
                   
-                  <input type="text" class="form-control border-0 bg-light input-search" placeholder="Search..." 
+                  <input type="text" class="form-control border-0 bg-light input-search" placeholder="Tìm kiếm..." 
                          th:name="search" th:value="${filters.search}">
                   <div class="input-group-append">
                     <button class="btn btn-light" type="submit"><i data-feather="search"></i></button>
@@ -122,20 +122,20 @@
                 <button type="button" class="btn btn-light btn-sm border rounded-pill" data-toggle="dropdown" 
                         aria-haspopup="true" aria-expanded="false">                        
                   <th:block th:switch="${filters.sort}">                    
-                    <span class="dropdown-sort-text" th:case="'priceasc'">Low - High Price</span>
-                    <span class="dropdown-sort-text" th:case="'pricedesc'">High - Low Price</span>
-                    <span class="dropdown-sort-text" th:case="'alphasc'">A - Z Order</span>
-                    <span class="dropdown-sort-text" th:case="'alphdesc'">Z - A Order</span>
+                    <span class="dropdown-sort-text" th:case="'priceasc'">Giá Thấp - Cao</span>
+                    <span class="dropdown-sort-text" th:case="'pricedesc'">Giá Cao - Thấp</span>
+                    <span class="dropdown-sort-text" th:case="'alphasc'">Sản Phẩm A - Z</span>
+                    <span class="dropdown-sort-text" th:case="'alphdesc'">Sản Phẩm Z - A</span>
                     <span class="dropdown-sort-text" th:case="*">Newest</span>
                   </th:block>      
                   <i data-feather="chevron-down"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right shadow-sm">
-                  <button class="dropdown-item button-sort" type="button" value="newest">Newest</button>
-                  <button class="dropdown-item button-sort" type="button" value="priceasc">Low - High Price</button>
-                  <button class="dropdown-item button-sort" type="button" value="pricedesc">High - Low Price</button>
-                  <button class="dropdown-item button-sort" type="button" value="alphasc">A - Z Order</button>
-                  <button class="dropdown-item button-sort" type="button" value="alphdesc">Z - A Order</button>
+                  <button class="dropdown-item button-sort" type="button" value="newest">Mới nhất</button>
+                  <button class="dropdown-item button-sort" type="button" value="priceasc">Giá Thấp - Cao</button>
+                  <button class="dropdown-item button-sort" type="button" value="pricedesc">Giá Cao - Thấp</button>
+                  <button class="dropdown-item button-sort" type="button" value="alphasc">Sản Phẩm A - Z</button>
+                  <button class="dropdown-item button-sort" type="button" value="alphdesc">Sản Phẩm Z - A</button>
                 </div>
               </div> 
               <input id="input-sort" hidden="hidden" type="text" name="sort" th:value="${filters.sort}">                           
@@ -151,7 +151,7 @@
                   	<img class="card-img-top" th:src="${article.pictures.size() > 0} ? ${article.pictures[0].getPictureUrl()} : '/image/article/itemexample.jpg'" alt="Card image cap">
                   </a>
                   <a th:href="@{/article-detail?id=}+${article.id}" class="card-title" th:text="${article.title}"></a>
-                  <div class="price"><span class="h5" th:text="'$'+${#numbers.formatDecimal(article.price, 0, T(Math).round(article.price) == article.price ? 0 : 2)}"> </span></div>
+                  <div class="price"><span class="h5" th:text="'$'+K{#numbers.formatDecimal(article.price, 0, T(Math).round(article.price) == article.price ? 0 : 2)}"> </span></div>
                 </div>              
               </div>
           </div>      
@@ -174,7 +174,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header border-bottom-0">
-            <h5 class="modal-title">Shop Filters</h5>
+            <h5 class="modal-title">Bộ Lọc</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

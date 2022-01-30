@@ -9,7 +9,7 @@
     <form th:action="@{/article/add}" method="post" enctype="multipart/form-data">
       <fieldset>
         <legend class="center-block">
-          New Article Information
+          Thêm Sản Phẩm Mới
         </legend>
               
         <div class="form-group row">
@@ -19,13 +19,13 @@
           </div>
         </div>
         <div class="form-group row">
-          <label for="description" class="col-2 col-form-label text-right">Description</label>
+          <label for="description" class="col-2 col-form-label text-right">Mô Tả</label>
           <div class="col-6">
             <textarea th:text="${article.description}" class="form-control" id="description" name="description" maxlength="250"></textarea>
           </div>
         </div>
         <div class="form-group row">
-          <label for="categories" class="col-2 col-form-label text-right">Category</label>
+          <label for="categories" class="col-2 col-form-label text-right">Thể Loại</label>
           <div class="col-6">
             <input type="text" class="form-control" id="categories" name="category" data-role="tagsinput">
           </div>
@@ -35,7 +35,7 @@
           </div>          
         </div>
         <div class="form-group row">
-          <label for="sizes" class="col-2 col-form-label text-right">Sizes</label>
+          <label for="sizes" class="col-2 col-form-label text-right">Kích thước</label>
           <div class="col-6">
             <input type="text" class="form-control" id="sizes" name="size" data-role="tagsinput">
           </div>
@@ -44,7 +44,7 @@
           </div>          
         </div>
         <div class="form-group row">
-          <label for="brands" class="col-2 col-form-label text-right">Brand</label>
+          <label for="brands" class="col-2 col-form-label text-right">Nhãn hiệu</label>
           <div class="col-6">
             <input type="text" class="form-control" id="brands" name="brand" data-role="tagsinput">
           </div>
@@ -54,13 +54,13 @@
           </div>
         </div>
         <div class="form-group row">
-          <label for="price" class="col-2 col-form-label text-right">Price</label>
+          <label for="price" class="col-2 col-form-label text-right">Giá</label>
           <div class="col-6 input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">$</span>
+              <span class="input-group-text" id="basic-addon1">K</span>
             </div>
             <input th:value="${article.price}" type="number" name="price" step="0.1"
-  				class="form-control" id="price" placeholder="List Price" />
+  				class="form-control" id="price" placeholder="Việt Nam Đồng" />
           </div>
         </div>
         
@@ -69,7 +69,7 @@
           <div class="col-6">
             <input th:value="${article.stock}" type="number"
                         name="stock" class="form-control" id="stock"
-                        placeholder="Number of in-stock" />
+                        placeholder="Kho hàng" />
           </div>
         </div>       
         
@@ -82,8 +82,8 @@
         
         <div class="form-group row">
           <div class="offset-2 col-6">
-          	<button type="submit" class="btn btn-success">Add Article</button>
-              <a class="btn btn-danger" th:href="@{/article/article-list}">Cancel</a>
+          	<button type="submit" class="btn btn-success">Đồng Ý</button>
+              <a class="btn btn-danger" th:href="@{/article/article-list}">Hủy</a>
           </div>
         </div>
     </fieldset>

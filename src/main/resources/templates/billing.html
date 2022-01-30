@@ -18,12 +18,12 @@
             <table class="table table-hover" data-addclass-on-xs="table-sm">
               <thead class="thead-light">
               <tr>
-                <th scope="col">Order ID</th>
+                <th scope="col">ID Hóa Đơn</th>
                 <th scope="col">User Name</th>
-                <th scope="col">Date</th>
-                <th scope="col" class="text-right">Total</th>
-                <th scope="col" class="text-center">Status</th>
-                <th scope="col" class="text-center">Confirm</th>
+                <th scope="col">Ngày Đặt</th>
+                <th scope="col" class="text-right">Tổng</th>
+                <th scope="col" class="text-center">Tình Trạng</th>
+                <th scope="col" class="text-center">Xác Nhận</th>
               </tr>
               </thead>
               <tbody>
@@ -34,7 +34,7 @@
                   <td th:value="${order.id}"  ><a th:href="@{/order/order-detail?order=}+${order.id}" class="text-primary">ORD<span th:text="${order.id}" ></span></a></td>
                   <td th:text="${order.user != null} ? ${order.user.username} : ${''}" th:value="${order.user != null} ? ${order.user.username} : ${''}"></td>
                   <td th:text="${#dates.format(order.orderDate, 'dd-MM-yyyy')}" th:value="${#dates.format(order.orderDate, 'dd-MM-yyyy')}"></td>
-                  <td class="text-right">$<span th:text="${order.orderTotal}" th:value="${order.orderTotal}"></span></td>
+                  <td class="text-right">K<span th:text="${order.orderTotal}" th:value="${order.orderTotal}"></span></td>
                   <td class="text-right" >
                     <select class="form-control-sm" name="orderStatus">
                       <option th:each="status : ${statuses}"

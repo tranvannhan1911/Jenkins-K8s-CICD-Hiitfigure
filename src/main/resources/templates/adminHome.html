@@ -16,10 +16,10 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
               role="button" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false"> PRODUCTS </a>
+              aria-expanded="false"> Quản Lí Sản Phẩm </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" th:href="@{/article/add}">Add new product</a> 
-              <a class="dropdown-item" th:href="@{/article/article-list}">View product list</a>
+              <a class="dropdown-item" th:href="@{/article/add}">Thêm Sản Phẩm Mới</a> 
+              <a class="dropdown-item" th:href="@{/article/article-list}">Danh Sách Sản Phẩm</a>
             </div>
           </li>   
           <li class="nav-item dropdown">
@@ -27,16 +27,16 @@
               role="button" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false"> BILLINGS </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" th:href="@{/order/billing}">View billing list</a>
+              <a class="dropdown-item" th:href="@{/order/billing}">Danh Sách Hóa Đơn</a>
             </div>
           </li>   
         </ul>
         <ul class="navbar-nav ml-auto">
            <li class="nav-item">
-            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/}"> BACK TO STORE </a>
+            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/}"> QUAY LẠI CỬA HÀNG </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}"> LOG OUT </a>
+            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}"> ĐĂNG XUẤT </a>
           </li>
         </ul>
       </div>
