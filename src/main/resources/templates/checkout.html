@@ -36,23 +36,23 @@
                           <a th:href="@{/article-detail?id=}+${cartItem.article.id}" class="h6 bold d-inline-block" th:text=${cartItem.article.title}></a>
                             <div><i data-feather="check-circle" class="text-success"></i> Còn Hàng</div>                  
                             <div><small><b>Size</b>: <span th:text="${cartItem.size}"></span></small></div>                  
-                            <small><b>Đơn Giá</b>: K<span th:text="${#numbers.formatDecimal(cartItem.article.price, 0, 'COMMA', 2, 'POINT')}"></span></small>
+                            <small><b>Đơn Giá</b>: <span th:text="${#numbers.formatDecimal(cartItem.article.price, 0, 'COMMA', 2, 'POINT')}"></span>K</small>
                         </div>
                       </div> 
                     </div>  
                     <div class="col-12 col-md-6 text-right">
                       <span>x<span th:text="${cartItem.qty}"></span> units: </span>                           
-                      <span class="font-weight-bold text-info">$ <span th:id="'price'+${cartItem.id}" th:text="${#numbers.formatDecimal(cartItem.subtotal, 0, 'COMMA', 2, 'POINT')}"></span></span>
+                      <span class="font-weight-bold text-info"> <span th:id="'price'+${cartItem.id}" th:text="${#numbers.formatDecimal(cartItem.subtotal, 0, 'COMMA', 2, 'POINT')}"></span>K</span>
                     </div>                  
                   </div>                  
                   <div class="text-center mx-auto">
                     <small class="counter">TỔNG TIỀN</small>
-                    <h3 class="font-weight-bold">$ <span th:text="${#numbers.formatDecimal(shoppingCart.getGrandTotal(), 0, 'COMMA', 2, 'POINT')}"></span></h3>
+                    <h3 class="font-weight-bold"><span th:text="${#numbers.formatDecimal(shoppingCart.getGrandTotal(), 0, 'COMMA', 2, 'POINT')}"></span>K</h3>
                   </div>                    
                   <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">      
-                    <a th:href="@{/shopping-cart/cart}" class="btn btn-info rounded-pill  "><i data-feather="arrow-left"></i> Edit cart</a>
+                    <a th:href="@{/shopping-cart/cart}" class="btn btn-info rounded-pill  "><i data-feather="arrow-left"></i> Quay lại giỏ hàng</a>
                     <a data-toggle="collapse" data-parent="#accordion"
-                        class="btn btn-primary rounded-pill " href="#collapseTwo">Next <i data-feather="arrow-right"></i></a>
+                        class="btn btn-primary rounded-pill " href="#collapseTwo">Tiếp theo <i data-feather="arrow-right"></i></a>
                   </div>
                 </div>                 
               </div>
@@ -106,16 +106,16 @@
             <div class="card-body">
               <div class="d-flex justify-content-between">
                 <span>Tổng tiền hàng</span>
-                <span>K <span th:text="${#numbers.formatDecimal(shoppingCart.getGrandTotal(), 0, 'COMMA', 2, 'POINT')}"> </span></span>
+                <span> <span th:text="${#numbers.formatDecimal(shoppingCart.getGrandTotal(), 0, 'COMMA', 2, 'POINT')}"> </span>K</span>
               </div>
               <div class="d-flex justify-content-between">
                 <span>Tổng tiền vận chuyển</span>
-                <span>K0.00</span>
+                <span>0.00K</span>
               </div>
               <hr>
               <div class="d-flex justify-content-between">
                 <span>Tổng Thanh Toán</span>
-                <span class="font-weight-bold">$ <span th:text="${#numbers.formatDecimal(shoppingCart.getGrandTotal(), 0, 'COMMA', 2, 'POINT')}"> </span></span>
+                <span class="font-weight-bold"> <span th:text="${#numbers.formatDecimal(shoppingCart.getGrandTotal(), 0, 'COMMA', 2, 'POINT')}"> </span>K</span>
               </div>
             </div>
             <div class="card-footer bg-white border-top-0">
