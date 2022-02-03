@@ -30,7 +30,7 @@ public class HomeController {
 	}
 	@RequestMapping("/aboutus")
 	public String aboutUs() {		
-		return "aboutus";
+		return "aboutUs";
 	}
 
 	
