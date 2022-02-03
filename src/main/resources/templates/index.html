@@ -14,7 +14,7 @@
          <div class="col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-3 col-xl-6 offset-xl-6 my-auto">  
             <h2 class="bg-warning text-dark d-inline-block p-1 ">HiiT Figure</h2>
             <h1 class="font-weight-bold">A Ticket To Childhood</h1>
-            <a th:href="@{/store}" class="btn btn-primary rounded-pill" data-addclass-on-xs="btn-sm">SHOP NOW</a>       
+            <a th:href="@{/store}" class="btn btn-primary btn-lg rounded-pill" data-addclass-on-xs="btn-sm">MUA NGAY</a>       
           </div> 
       </div>
   </div>
@@ -31,7 +31,7 @@
               	<img class="card-img-top" th:src="${article.pictures.size() > 0} ? ${article.pictures[0].pictureUrl} : '/image/article/itemexample.jpg'" alt="Card image cap">
               </a>
               <a th:href="@{/article-detail?id=}+${article.id}" class="card-title" th:text="${article.title}"></a>
-              <div class="price"><span th:text="'$'+${article.price}"></span></div>
+              <div class="price"><span th:text="${article.price}+'K'"></span></div>
             </div>              
           </div>
         </div>

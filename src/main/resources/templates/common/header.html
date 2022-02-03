@@ -1,20 +1,20 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org./1999/xhtml"
-	xmlns:sec="http://www.w3.org./1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org./1999/xhtml" xmlns:sec="http://www.w3.org./1999/xhtml">
+
 <head th:fragment="common-header">
 	<meta charset="utf-8">
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
-	
+
 	<title>HiiTFigure</title>
 	<link rel="icon" href="/image/icon-logo.png">
 	<!-- Fonts -->
-	<link
-		href="https://fonts.googleapis.com/css?family=Nunito|Roboto|Roboto+Condensed|Roboto+Slab"
-		rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css?family=Nunito|Roboto|Roboto+Condensed|Roboto+Slab" rel="stylesheet">
 	<!-- Bootstrap core CSS -->
 	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/css/error.css">
+	<link rel="stylesheet" href="/css/aboutus.css">
 	<!-- Tables plugin -->
 	<link href="/css/datatables.min.css" rel="stylesheet">
 	<!-- Bootstrap tagsinput -->
@@ -22,21 +22,16 @@
 	<!-- Simple pagination -->
 	<link href="/css/simplePagination.css" rel="stylesheet" />
 	<!-- Slick carousel -->
-	<link href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"
-		rel="stylesheet" />
-	<link
-		href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"
-		rel="stylesheet" />
+	<link href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" rel="stylesheet" />
+	<link href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" rel="stylesheet" />
 	<!-- Custom styles -->
 	<link href="/css/style.css" rel="stylesheet">
 	<!-- Feather icons -->
 	<script src="https://unpkg.com/feather-icons"></script>
 	<script src="/js/fontawesome.js"></script>
 	<!-- Font Awesome icons -->
-	<link rel="stylesheet"
-		href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
-	<link rel="stylesheet"
-		href="https://use.fontawesome.com/releases/v5.15.4/css/v4-shims.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/v4-shims.css">
 	<!-- Youtube subcribe icon -->
 	<script src="https://apis.google.com/js/platform.js"></script>
 	<!-- Facebook share -->
@@ -45,21 +40,18 @@
 	<meta property="og:url" content="https://www.facebook.com/hiitfigure" />
 	<meta property="og:type" content="website" />
 	<meta property="og:title" content="HiiT Figure" />
-	<meta property="og:description" content="Chuyên mua bán, đặt hàng các thể loại mô hình Dragon Ball, Super Sentai,...." />
-	<meta property="og:image"
-		content="https://www.your-domain.com/path/image.jpg" />
+	<meta property="og:description"
+		content="Chuyên mua bán, đặt hàng các thể loại mô hình Dragon Ball, Super Sentai,...." />
+	<meta property="og:image" content="/image/icon-logo.png" />
 </head>
 
 
 <body>
 	<div th:fragment="navbar">
-		<nav
-			class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm">
-			<a class="navbar-brand" th:href="@{/}"><img width="50"
-				height="30" src="/image/logo.png"></a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarCollapse" aria-controls="navbarCollapse"
-				aria-expanded="false" aria-label="Toggle navigation">
+		<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm">
+			<a class="navbar-brand" th:href="@{/}"><img width="50" height="30" src="/image/logo.png"></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+				aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarCollapse">
@@ -68,24 +60,23 @@
 							Trang Chủ</a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/store}">
 							Cửa Hàng </a></li>
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/shopping-cart/cart}">Giỏ Hàng <span
-							class="badge badge-primary badge-pill"
-							style="vertical-align: top;"
-							th:text="${shoppingCartItemNumber} > 0 ? ${shoppingCartItemNumber}"></span></a>
+					<li class="nav-item"><a class="nav-link" th:href="@{/shopping-cart/cart}">Giỏ Hàng <span
+								class="badge badge-primary badge-pill" style="vertical-align: top;"
+								th:text="${shoppingCartItemNumber} > 0 ? ${shoppingCartItemNumber}"></span></a>
 					</li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/aboutus}">
+							Về Chúng Tôi </a></li>
 				</ul>
 				<ul class="navbar-nav ml-auto font-weight-bold">
-					<li class="nav-item"><a class="nav-link"
-						sec:authorize="isAnonymous()" th:href="@{/login}">Thông Tin </a>
+					<li class="nav-item"><a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}">Thông Tin
+						</a>
 					</li>
-					<li class="nav-item"><a class="nav-link"
-						sec:authorize="isAuthenticated()" th:href="@{/my-profile}">Thông Tin</a></li>
-					<li class="nav-item"><a class="nav-link"
-						sec:authorize="isAuthenticated()" th:href="@{/logout}"> Đăng Xuất </a></li>
-					<li class="nav-item"><a class="nav-link text-dark"
-						sec:authorize="hasRole('ADMIN')"
-						th:href="@{/article/article-list}"> Trang ADMIN</a></li>
+					<li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()"
+							th:href="@{/my-profile}">Thông Tin</a></li>
+					<li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}">
+							Đăng Xuất </a></li>
+					<li class="nav-item"><a class="nav-link text-dark" sec:authorize="hasRole('ADMIN')"
+							th:href="@{/article/article-list}"> Trang ADMIN</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -102,52 +93,41 @@
 						<p>để nhận các thông tin mới nhất về mô hình, sự kiện từ chúng tôi</p>
 						<form>
 							<div class="form-group">
-								<input type="email"
-									class="form-control rounded-pill text-center footer-input"
+								<input type="email" class="form-control rounded-pill text-center footer-input"
 									placeholder="Nhập email của bạn">
 							</div>
-							<button type="button"
-								class="btn btn-primary btn-block rounded-pill">ĐĂNG KÝ</button>
+							<button type="button" class="btn btn-primary btn-block rounded-pill">ĐĂNG KÝ</button>
 						</form>
 					</div>
 					<div class="col-6 col-lg-3 pl-3">
 						<h6 class="font-weight-bold">Customer Service</h6>
-						<div
-							class="list-group list-group-flush list-group-no-border list-group-sm">
-							<a href="javascript:void(0)"
-								class="list-group-item list-group-item-action">Trung tâm hỗ trợ</a> <a
-								href="javascript:void(0)"
-								class="list-group-item list-group-item-action">Chính sách mua hàng</a> <a
-								href="javascript:void(0)"
-								class="list-group-item list-group-item-action">Chính sách vận chuyển</a> <a
-								href="javascript:void(0)"
+						<div class="list-group list-group-flush list-group-no-border list-group-sm">
+							<a href="javascript:void(0)" class="list-group-item list-group-item-action">Trung tâm hỗ
+								trợ</a> <a th:href="@{/policy}"
+								class="list-group-item list-group-item-action">Chính sách thanh toán</a> <a
+								th:href="@{/policy}" class="list-group-item list-group-item-action">Chính sách vận
+								chuyển</a> <a th:href="@{/policy}"
 								class="list-group-item list-group-item-action">Chính sách đổi trả</a>
-							<a href="javascript:void(0)"
-								class="list-group-item list-group-item-action">Phương thức thanh toán</a> <a href="javascript:void(0)"
-								class="list-group-item list-group-item-action">Phương thức vận chuyển</a>
+
 						</div>
 					</div>
 					<div class="col-6 col-lg-3 pl-3">
 						<h6 class="font-weight-bold">HiiT Figure</h6>
-						<div
-							class="list-group list-group-flush list-group-no-border list-group-sm">
-							<a href="javascript:void(0)"
-								class="list-group-item list-group-item-action">Về chúng tôi</a> <a
-								href="javascript:void(0)"
-								class="list-group-item list-group-item-action">Chính sách và điều khoản</a> <a href="javascript:void(0)"
-								class="list-group-item list-group-item-action">Chính sách riêng tư</a> <a href="javascript:void(0)"
-								class="list-group-item list-group-item-action">FAQs</a> <a
-								href="javascript:void(0)"
-								class="list-group-item list-group-item-action">Câu chuyện của chúng tôi</a> <a
-								href="javascript:void(0)"
+						<div class="list-group list-group-flush list-group-no-border list-group-sm">
+							<a th:href="@{/aboutus}" class="list-group-item list-group-item-action">Về chúng tôi</a>
+							<a th:href="@{/policy}" class="list-group-item list-group-item-action">Chính sách và
+								điều khoản</a> <a href="javascript:void(0)"
+								class="list-group-item list-group-item-action">Chính sách riêng tư</a> <a
+								href="javascript:void(0)" class="list-group-item list-group-item-action">FAQs</a> <a
+								href="javascript:void(0)" class="list-group-item list-group-item-action">Câu chuyện của
+								chúng tôi</a> <a href="javascript:void(0)"
 								class="list-group-item list-group-item-action">Dịch vụ</a>
 						</div>
 					</div>
 					<div class="col-sm-6 col-lg-3 pl-3">
 						<div>
 							<h6 class="font-weight-bold ">Liên hệ tôi</h6>
-							<div
-								class="list-group list-group-flush list-group-no-border list-group-sm">
+							<div class="list-group list-group-flush list-group-no-border list-group-sm">
 								<span class="list-group-item"><strong>Số điện thoại:</strong>
 									0845 963 908</span> <span class="list-group-item"><strong>Email:</strong>
 									hiitfigure@gmail.com</span> <span class="list-group-item"><strong>Mon-Sun:</strong>
@@ -157,19 +137,15 @@
 						</div>
 						<div class="mt-2">
 							<h6 class="font-weight-bold">Theo dõi chúng tôi tại: </h6>
-							<div
-								class="list-group list-group-flush list-group-no-border list-group-sm flex-column">
-								<div class="g-ytsubscribe mt-2"
-									data-channelid="UCjZB7nj_nYVaT2vEROXrtuw" data-layout="full"
-									data-count="default"></div>
+							<div class="list-group list-group-flush list-group-no-border list-group-sm flex-column">
+								<div class="g-ytsubscribe mt-2" data-channelid="UCjZB7nj_nYVaT2vEROXrtuw"
+									data-layout="full" data-count="default"></div>
 								<div class="d-flex mt-3">
 									<a href="https://www.facebook.com/hiitfigure/" target="_blank">
-										<img src="/image/icon-logo.png"
-										style="width: 48px; margin-right: 10px">
+										<img src="/image/icon-logo.png" style="width: 48px; margin-right: 10px">
 									</a>
-									<div class="fb-like mt-4 w-100"
-										data-href="https://www.facebook.com/hiitfigure/" data-width=""
-										data-layout="standard" data-action="like" data-size="small"
+									<div class="fb-like mt-4 w-100" data-href="https://www.facebook.com/hiitfigure/"
+										data-width="" data-layout="standard" data-action="like" data-size="small"
 										data-share="true"></div>
 								</div>
 							</div>
@@ -188,37 +164,36 @@
 			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 			crossorigin="anonymous"></script>
 		<script>
-        window.jQuery
-        || document
-            .write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')
-    </script>
+			window.jQuery
+				|| document
+					.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')
+		</script>
 		<script src="/js/bootstrap.bundle.min.js"></script>
 		<script src="/js/datatables.min.js"></script>
 		<script src="/js/tagsinput.js"></script>
 		<script>feather.replace()</script>
 		<script type="text/javascript" src="/js/jquery.simplePagination.js"></script>
-		<script type="text/javascript"
-			src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+		<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 		<script>
-        //prevent multiple form submission
-        $(function () {
-            $('form').submit(function () {
-                $("button[type='submit']", this)
-                    .text("Please Wait...")
-                    .attr('disabled', 'disabled');
-                return true;
-            });
-        });
-    </script>
+			//prevent multiple form submission
+			$(function () {
+				$('form').submit(function () {
+					$("button[type='submit']", this)
+						.text("Please Wait...")
+						.attr('disabled', 'disabled');
+					return true;
+				});
+			});
+		</script>
 
 		<!-- Load Facebook SDK for JavaScript -->
-		<script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+		<script>(function (d, s, id) {
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) return;
+				js = d.createElement(s); js.id = id;
+				js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+				fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));</script>
 
 	</div>
 

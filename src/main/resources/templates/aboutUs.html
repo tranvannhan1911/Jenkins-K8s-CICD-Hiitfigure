@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org./1999/xhtml" xmlns:sec="http://www.w3.org./1999/xhtml">
+
+<head th:replace="common/header :: common-header"></head>
+
+<body>
+	<div th:replace="common/header :: navbar"></div>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
+		integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-lg-6 col-md-6 order-2 order-md-1 mt-4 pt-2 mt-sm-0 opt-sm-0">
+				<div class="row align-items-center">
+					<div class="col-lg-6 col-md-6 col-6">
+						<div class="row">
+							<div class="col-lg-12 col-md-12 mt-4 pt-2">
+								<div class="card work-desk rounded border-0 shadow-lg overflow-hidden">
+									<img src="/image/logo.png" class="img-fluid"
+										alt="Image" />
+									<div class="img-overlay bg-dark"></div>
+								</div>
+							</div>
+							<!--end col-->
+
+							<div class="col-12">
+								<div class="mt-4 pt-2 text-right">
+									<a href="javascript:void(0)" class="btn btn-info">Read More <i
+											class="mdi mdi-chevron-right"></i></a>
+								</div>
+							</div>
+						</div>
+						<!--end row-->
+					</div>
+					<!--end col-->
+
+					<div class="col-lg-6 col-md-6 col-6">
+						<div class="row">
+							<div class="col-lg-12 col-md-12">
+								<div class="card work-desk rounded border-0 shadow-lg overflow-hidden">
+									<img src="/image/supersentaiall.jpg" class="img-fluid"
+										alt="Image" />
+									<div class="img-overlay bg-dark"></div>
+								</div>
+							</div>
+							<!--end col-->
+
+							<div class="col-lg-12 col-md-12 mt-4 pt-2">
+								<div class="card work-desk rounded border-0 shadow-lg overflow-hidden">
+									<img src="/image/cicd-pipelines_devops.png" class="img-fluid"
+										alt="Image" />
+									<div class="img-overlay bg-dark"></div>
+								</div>
+							</div>
+							<!--end col-->
+						</div>
+						<!--end row-->
+					</div>
+					<!--end col-->
+				</div>
+				<!--end row-->
+			</div>
+			<!--end col-->
+
+			<div class="col-lg-6 col-md-6 col-12 order-1 order-md-2">
+				<div class="section-title ml-lg-5">
+					<h5 class="text-custom font-weight-normal mb-3">Về Chúng Tôi</h5>
+					<h4 class="title mb-4">
+						Một vé đi tuổi thơ, trải nghiệm mô hình "Real" <br />
+						một cách dễ dàng hơn.
+					</h4>
+					<p class="text-muted mb-0">Đội ngũ chúng tôi là các anh em đến từ cộng đồng IT, có đam mê với Figure.</p>
+					<p class="text-muted mb-0">Chúng tôi chuyên cung cấp, order các loại hàng bandai "real" từ thị trường Trung/Nhật như Dragonball, SuperSentai,...</p>
+
+					<div class="row">
+						<div class="col-lg-6 mt-4 pt-2">
+							<div class="media align-items-center rounded shadow p-3">
+								<i class="fa fa-play h4 mb-0 text-custom"></i>
+								<h6 class="ml-3 mb-0"><a target="_blank" th:href="@{/store}" class="text-dark">Sản Phẩm</a></h6>
+							</div>
+						</div>
+						<div class="col-lg-6 mt-4 pt-2">
+							<div class="media align-items-center rounded shadow p-3">
+								<i class="fa fa-file-download h4 mb-0 text-custom"></i>
+								<h6 class="ml-3 mb-0"><a target="_blank" th:href="@{https://shopee.com/hiitfigure}" class="text-dark">Đối Tác</a>
+								</h6>
+							</div>
+						</div>
+						<div class="col-lg-6 mt-4 pt-2">
+							<div class="media align-items-center rounded shadow p-3">
+								<i class="fa fa-user h4 mb-0 text-custom"></i>
+								<h6 class="ml-3 mb-0"><a target="_blank" th:href="@{https://facebook.com/hiitfigure}" class="text-dark">Hỗ Trợ</a></h6>
+							</div>
+						</div>
+						<div class="col-lg-6 mt-4 pt-2">
+							<div class="media align-items-center rounded shadow p-3">
+								<i class="fa fa-image h4 mb-0 text-custom"></i>
+								<h6 class="ml-3 mb-0"><a target="_blank" th:href="@{/policy}" class="text-dark">Chính sách</a>
+								</h6>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end col-->
+		</div>
+		<!--enr row-->
+	</div>
+
+	<div th:replace="common/header :: footer"> </div>
+</body>
+
+</html>
