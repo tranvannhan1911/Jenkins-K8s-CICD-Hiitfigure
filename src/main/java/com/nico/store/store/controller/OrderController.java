@@ -38,7 +38,6 @@ public class OrderController {
     	if(order == null) {
     		throw new Exception ("Order not found");
     	}
-    	
     	_order.setOrderStatus(order.getOrderStatus());
         _order.setId(order.getId());
         orderService.saveOrder(_order);
