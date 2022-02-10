@@ -8,6 +8,15 @@
 
 	<div th:replace="adminHome :: navbarAdmin"> </div>
 
+	<div th:if="${notEnoughStock}"
+		 class="alert alert-danger alert-dismissible fade show" role="alert">
+		<strong>Đơn hàng không thể tiếp tục do có hàng đã hết. </strong>
+		<button type="button" class="close" data-dismiss="alert"
+				aria-label="Đóng">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
 	<div class="container page-content table-responsive-xl">
 		<h3>Danh sách hóa đơn</h3>
 		<hr>

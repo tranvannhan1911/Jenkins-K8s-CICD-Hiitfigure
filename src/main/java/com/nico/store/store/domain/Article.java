@@ -36,7 +36,11 @@ public class Article {
 	public void decreaseStock(int amount) {
 		this.stock -= amount;
 	}
-	
+
+	public void increaseStock(int amount){
+		this.stock += amount;
+	}
+
 	public void addSize(Size size) {
 		sizes.add(size);
 		size.setArticle(this);
