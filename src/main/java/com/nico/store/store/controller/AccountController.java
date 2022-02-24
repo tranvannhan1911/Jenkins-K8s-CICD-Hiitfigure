@@ -128,7 +128,6 @@ public class AccountController {
 			model.addAttribute("usernameExists", true);
 			return "verify";
 		}
-		System.out.println(sendNewCode);
 		if(sendNewCode.equals("Gửi lại")){
 			Random rand = new Random();
 			int codeNew = rand.nextInt(900000)+100000;
