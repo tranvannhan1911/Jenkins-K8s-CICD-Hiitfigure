@@ -9,7 +9,6 @@ import java.util.Random;
 
 import javax.validation.Valid;
 
-import com.nico.store.store.service.impl.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,6 +26,7 @@ import com.nico.store.store.domain.Order;
 import com.nico.store.store.domain.User;
 import com.nico.store.store.service.OrderService;
 import com.nico.store.store.service.UserService;
+import com.nico.store.store.service.impl.EmailSenderService;
 import com.nico.store.store.service.impl.UserSecurityService;
 
 import utility.SecurityUtility;
@@ -93,8 +93,6 @@ public class AccountController {
 							  @ModelAttribute("new-password") String password, 
 							  RedirectAttributes redirectAttributes, Model model) {
 		model.addAttribute("email", user.getEmail());
-		model.addAttribute("username", user.getUsername());
-
 		boolean invalidFields = false;
 		if (bindingResults.hasErrors()) {
 			return "redirect:/login";
@@ -122,17 +120,39 @@ public class AccountController {
 	@RequestMapping(value="/verify-mail", method=RequestMethod.POST)
 	public String verifyMail(@ModelAttribute("email") String email,
 							 @ModelAttribute("verify-code") String code,
-							 RedirectAttributes redirectAttributes, Model model){
+							 @ModelAttribute("new-code") String sendNewCode,
+							 Model model){
 		User user = userService.findByEmail(email);
 
-		if(user==null){
-			redirectAttributes.addFlashAttribute("emailExists", true);
+		if(user==null || user.isEnabled()){
+			model.addAttribute("usernameExists", true);
+			return "verify";
+		}
+		System.out.println(sendNewCode);
+		if(sendNewCode.equals("Gửi lại")){
+			Random rand = new Random();
+			int codeNew = rand.nextInt(900000)+100000;
+
+			user.setCode(codeNew);
+			user.setTimeCode(LocalDateTime.now());
+			userService.save(user);
+
+			model.addAttribute("email", user.getEmail());
+			senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "Code: " + user.getCode());
+
+			return "verify";
+		}
+		if(!Integer.toString(user.getCode()).equals(code)){
+			model.addAttribute("codeMismatched", true);
+			return "verify";
+		}
+		if(Duration.between(user.getTimeCode(), LocalDateTime.now()).toMinutes()>5){
+			model.addAttribute("outTimeCode", true);
+			return "verify";
 		}
 
-		if(user.getCode()==Integer.parseInt(code) && Duration.between(user.getTimeCode(), LocalDateTime.now()).toMinutes()<=5){
-			user.setEnabled(true);
-			userService.save(user);
-		}
+		user.setEnabled(true);
+		userService.save(user);
 
 		model.addAttribute("user", user);
 

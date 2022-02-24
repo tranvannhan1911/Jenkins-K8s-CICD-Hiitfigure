@@ -6,6 +6,25 @@
 <body class="d-flex flex-column">
 <div th:replace="common/header :: navbar"> </div>
 
+<div th:if="${usernameExists}" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Email không hợp lệ</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div th:if="${codeMismatched}" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Mã xác thực không hợp lệ</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div th:if="${outTimeCode}" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Mã xác thực đã quá hạn vui lòng gửi mã mới</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
 <div class="container my-3 my-sm-5 page-content">
     <div class="row justify-content-center" id="row-login">
         <div class="card card-login col-md-6">
@@ -17,16 +36,17 @@
                     <div class="form-group">
                         <div class="input-icon">
                             <i data-feather="mail"></i>
-                            <input required="required" type="email" class="form-control" th:classappend="${emailExists} ? is-invalid"
+                            <input required="required" type="email" class="form-control"
                                    name="email" placeholder="Email " th:value="${email}">
-                            <div class="invalid-feedback">Email chưa được đăng kí</div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="input-icon">
-                            <i data-feather="lock"></i> <input type="text" required="required"
-                                                               class="form-control" name="verify-code"
+                        <div class="input-icon d-flex">
+                            <i data-feather="lock"></i>
+                            <input type="text" class="form-control" name="verify-code"
                                                                placeholder="Mã xác thực" autocomplete="verify-code">
+                            <input type="submit"
+                                    class="btn btn-primary btn-block w-25" value="Gửi lại" name="new-code">
                         </div>
                     </div>
                     <button type="submit"
