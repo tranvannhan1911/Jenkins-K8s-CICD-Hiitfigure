@@ -1,11 +1,15 @@
 package com.nico.store.store.controller;
 
 import java.security.Principal;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import javax.validation.Valid;
 
+import com.nico.store.store.service.impl.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,7 +25,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.nico.store.store.domain.Address;
 import com.nico.store.store.domain.Order;
 import com.nico.store.store.domain.User;
-import com.nico.store.store.domain.security.UserRole;
 import com.nico.store.store.service.OrderService;
 import com.nico.store.store.service.UserService;
 import com.nico.store.store.service.impl.UserSecurityService;
@@ -39,6 +42,9 @@ public class AccountController {
 	
 	@Autowired
 	private OrderService orderService;
+
+	@Autowired
+	private EmailSenderService senderService;
 
 	@RequestMapping("/login")
 	public String log(Model model) {
@@ -87,25 +93,50 @@ public class AccountController {
 							  @ModelAttribute("new-password") String password, 
 							  RedirectAttributes redirectAttributes, Model model) {
 		model.addAttribute("email", user.getEmail());
-		model.addAttribute("username", user.getUsername());	
+		model.addAttribute("username", user.getUsername());
+
 		boolean invalidFields = false;
 		if (bindingResults.hasErrors()) {
 			return "redirect:/login";
-		}		
-		if (userService.findByUsername(user.getUsername()) != null) {
+		}
+		if (userService.findByUsername(user.getUsername()) != null && userService.findByEmail(user.getEmail()).isEnabled()) {
 			redirectAttributes.addFlashAttribute("usernameExists", true);
 			invalidFields = true;
 		}
-		if (userService.findByEmail(user.getEmail()) != null) {
+		if (userService.findByEmail(user.getEmail()) != null && userService.findByEmail(user.getEmail()).isEnabled()) {
 			redirectAttributes.addFlashAttribute("emailExists", true);
 			invalidFields = true;
 		}	
 		if (invalidFields) {
 			return "redirect:/login";
-		}		
+		}
+
 		user = userService.createUser(user.getUsername(),  user.getEmail(), password, Arrays.asList("ROLE_USER"));	
 		userSecurityService.authenticateUser(user.getUsername());
-		return "redirect:/my-profile";  
+
+		senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "Code: " + user.getCode());
+
+		return "verify";
+	}
+
+	@RequestMapping(value="/verify-mail", method=RequestMethod.POST)
+	public String verifyMail(@ModelAttribute("email") String email,
+							 @ModelAttribute("verify-code") String code,
+							 RedirectAttributes redirectAttributes, Model model){
+		User user = userService.findByEmail(email);
+
+		if(user==null){
+			redirectAttributes.addFlashAttribute("emailExists", true);
+		}
+
+		if(user.getCode()==Integer.parseInt(code) && Duration.between(user.getTimeCode(), LocalDateTime.now()).toMinutes()<=5){
+			user.setEnabled(true);
+			userService.save(user);
+		}
+
+		model.addAttribute("user", user);
+
+		return "redirect:/my-profile";
 	}
 		
 	@RequestMapping(value="/update-user-info", method=RequestMethod.POST)

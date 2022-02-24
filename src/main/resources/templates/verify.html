@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org./1999/xhtml">
+<head th:replace="common/header :: common-header" />
+
+
+<body class="d-flex flex-column">
+<div th:replace="common/header :: navbar"> </div>
+
+<div class="container my-3 my-sm-5 page-content">
+    <div class="row justify-content-center" id="row-login">
+        <div class="card card-login col-md-6">
+            <div class="card-body">
+                <form th:action="@{/verify-mail}" method="post">
+                    <div class="form-group text-center">
+                        <h2 class="bold">Verify</h2>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon">
+                            <i data-feather="mail"></i>
+                            <input required="required" type="email" class="form-control" th:classappend="${emailExists} ? is-invalid"
+                                   name="email" placeholder="Email " th:value="${email}">
+                            <div class="invalid-feedback">Email chưa được đăng kí</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon">
+                            <i data-feather="lock"></i> <input type="text" required="required"
+                                                               class="form-control" name="verify-code"
+                                                               placeholder="Mã xác thực" autocomplete="verify-code">
+                        </div>
+                    </div>
+                    <button type="submit"
+                            class="btn btn-outline-primary btn-block">Xác thực</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="common/header :: footer"> </div>
+<div th:replace="common/header :: body-scripts"> </div>
+
+</body>
+</html>
