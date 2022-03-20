@@ -669,7 +669,7 @@ a {
 	}
 }
 
-@media ( min-width :768px) {
+@media ( min-width :793px) {
 	.grid-col-md-1 {
 		grid-template-columns: repeat(1, 1fr)
 	}
@@ -802,3 +802,53 @@ a {
 	grid-gap: 1rem
 }
 
+.card-body .picture {
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.sale {
+	position: absolute;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(255,212,36,.9);
+	color: red;
+	height: 2rem;
+	width: 2rem;
+	line-height: 2rem;
+	transform: translate(-10px, 10px);
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.sale:before,
+.sale:after {
+	 content:"";
+	 position: absolute;
+	 background: inherit;
+	 height: inherit;
+	 width: inherit;
+	 top: 0;
+	 left: 0;
+	 z-index: -1;
+	 transform: rotate(60deg);
+}
+
+.sale:after {
+	 transform: rotate(30deg);
+}
+
+.price {
+	display: flex;
+}
+
+.money-before-sale {
+	color: #9e9e9e;
+	text-decoration: line-through;
+	padding-right: 7px;
+}
+
+svg {
+	margin-bottom: 0 !important;
+}

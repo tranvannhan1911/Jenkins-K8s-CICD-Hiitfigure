@@ -66,7 +66,8 @@ public class ArticleController {
 
 		Article newArticle = new ArticleBuilder().withTitle(article.getTitle())
 				.withDescription(article.getDescription()).stockAvailable(article.getStock())
-				.withPrice(article.getPrice()).imageLink(fileUploaded)
+				.withPrice(article.getPrice()).withDiscount(article.getDiscount())
+				.imageLink(fileUploaded)
 				.sizesAvailable(Arrays.asList(request.getParameter("size").split("\\s*,\\s*")))
 				.ofCategories(Arrays.asList(request.getParameter("category").split("\\s*,\\s*")))
 				.ofBrand(Arrays.asList(request.getParameter("brand").split("\\s*,\\s*"))).build();
@@ -147,7 +148,8 @@ public class ArticleController {
 
 		Article newArticle = new ArticleBuilder().withTitle(article.getTitle())
 				.withDescription(article.getDescription()).stockAvailable(article.getStock())
-				.withPrice(article.getPrice()).imageLink(fileUploaded)
+				.withPrice(article.getPrice()).withDiscount(article.getDiscount())
+				.imageLink(fileUploaded)
 				.sizesAvailable(Arrays.asList(request.getParameter("size").split("\\s*,\\s*")))
 				.ofCategories(Arrays.asList(request.getParameter("category").split("\\s*,\\s*")))
 				.ofBrand(Arrays.asList(request.getParameter("brand").split("\\s*,\\s*"))).build();

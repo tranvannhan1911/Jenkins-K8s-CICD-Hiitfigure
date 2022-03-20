@@ -16,6 +16,7 @@ public class Article {
 	private String description;
 	private int stock;
 	private double price;
+	private int discount;
 
 	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<ArticlePicture> pictures;

@@ -10,6 +10,7 @@ public class ArticleBuilder {
 	private String description;
 	private int stock;	
 	private double price;
+	private int discount;
 	private Set<String> pictures;
 	private List<String> sizes;
 	private List<String> categories;
@@ -35,6 +36,11 @@ public class ArticleBuilder {
 	
 	public ArticleBuilder withPrice(double price) {
 		this.price = price;
+		return this;
+	}
+
+	public ArticleBuilder withDiscount(int discount) {
+		this.discount = discount;
 		return this;
 	}
 	
@@ -64,6 +70,7 @@ public class ArticleBuilder {
 		article.setDescription(this.description);
 		article.setPrice(this.price);
 		article.setStock(this.stock);
+		article.setDiscount(this.discount);
 		if (this.pictures != null && !this.pictures.isEmpty()) {
 			Set<ArticlePicture> pictures = new HashSet<>();
 			for (String val : this.pictures) {

@@ -15,6 +15,7 @@
         <th>Kích thước</th>
         <th>Đơn giá</th>
         <th>Số lượng</th>
+        <th>Giảm giá(%)</th>
         <th>Mở rộng</th>
       </tr>
     </thead>
@@ -29,6 +30,7 @@
             th:text="${item.getValue()}" class="badge badge-secondary mt-1 mr-1" ></span></div></td>
         <td th:text="${article.price}"></td>
         <td th:text="${article.stock}"></td>
+        <td th:text="${article.discount}"></td>
         <td><a th:href="@{/article/edit?id=}+${article.id}" class="badge badge-primary">SỬA</a>  
             <a th:href="@{/article/delete?id=}+${article.id}" class="badge badge-danger">XÓA </a> </td>
       </tr>

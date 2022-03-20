@@ -14,6 +14,7 @@ public class ArticleDTO {
 	private String description;
 	private Integer stock;
 	private Double price;
+	private Integer discount;
 	private String picture;
 	private Set<String> pictures;
 	private Set<String> oldPictureUrls;

@@ -52,21 +52,28 @@
 								<div th:each="picture, idx : ${article.pictures}"
 									class="carousel-item" style="height: 400px;"
 									th:classappend="${idx.index} == 0 ? 'active' : ''">
-									<img class="img-fluid slide-img"
-										th:styleappend="'background: url('+ ${picture.getPictureUrl()} + ')'"
-										th:xoriginal="${picture.getPictureUrl()}"
-										th:xpreview="${picture.getPictureUrl()}"
-										th:src="${picture.getPictureUrl()}">
+									<div class="picture">
+										<img class="img-fluid slide-img"
+											th:styleappend="'background: url('+ ${picture.getPictureUrl()} + ')'"
+											th:xoriginal="${picture.getPictureUrl()}"
+											th:xpreview="${picture.getPictureUrl()}"
+											th:src="${picture.getPictureUrl()}">
+										<span class="sale" th:if="${article.discount != null and article.discount &gt; 0}" th:text="${'-' + article.discount + '%'}"></span>
+									</div>
 								</div>
 							</div>
+
 						</div>
 					</div>
 					<div class="col-md-6 mt-3 mt-md-0">
 						<h2 class="card-title" th:text="${article.title}"></h2>
 						<div class="d-flex align-items-center">
 							<h2 class="price font-weight-bold mr-3">
-								<span
-									th:text="${#numbers.formatDecimal(article.price, 0, T(Math).round(article.price) == article.price ? 0 : 2)}+'K'"></span>
+								<div class="price">
+									<span th:if="${article.discount > 0}" class="money-before-sale" th:text="${article.price} + 'K'"></span>
+									<span th:with="articleAfterDiscount=${article.price - (article.price * article.discount / 100)}"
+										  th:text="${#numbers.formatDecimal(articleAfterDiscount, 0, T(Math).round(articleAfterDiscount) == articleAfterDiscount ? 0 : 2)}+'K'"> </span>
+								</div>
 							</h2>
 							<h6>
 								(<span th:text="${article.stock}"></span> trong kho)

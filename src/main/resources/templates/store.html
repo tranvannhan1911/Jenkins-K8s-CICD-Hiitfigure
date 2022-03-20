@@ -147,12 +147,17 @@
           <div class="grid grid-gap-3 grid-col-2 grid-col-lg-3 mb-3">
               <div class="card card-product" th:each="article : ${articles}">
                 <div class="card-body">
-                  <a th:href="@{/article-detail?id=}+${article.id}">
+                  <a class="picture" th:href="@{/article-detail?id=}+${article.id}">
                   	<img class="card-img-top" th:src="${article.pictures.size() > 0} ? ${article.pictures[0].getPictureUrl()} : '/image/article/itemexample.jpg'" alt="Card image cap">
+                    <span class="sale" th:if="${article.discount != null and article.discount &gt; 0}" th:text="${'-' + article.discount + '%'}"></span>
                   </a>
                   <a th:href="@{/article-detail?id=}+${article.id}" class="card-title" th:text="${article.title}"></a>
-                  <div class="price"><span class="h5" th:text="${#numbers.formatDecimal(article.price, 0, T(Math).round(article.price) == article.price ? 0 : 2)}+'K'"> </span></div>
-                </div>              
+                  <div class="price">
+                    <span th:if="${article.discount > 0}" class="money-before-sale" th:text="${article.price} + 'K'"></span>
+                    <span class="h5" th:with="articleAfterDiscount=${article.price - (article.price * article.discount / 100)}"
+                          th:text="${#numbers.formatDecimal(articleAfterDiscount, 0, T(Math).round(articleAfterDiscount) == articleAfterDiscount ? 0 : 2)}+'K'"> </span>
+                  </div>
+                </div>
               </div>
           </div>      
           <!-- /Shop Grid -->

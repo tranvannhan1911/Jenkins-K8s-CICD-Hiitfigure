@@ -27,20 +27,27 @@
               <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                 <div class="card-body border-bottom">                
                   <div class="row align-items-center border-bottom  pb-2 pt-2" th:each="cartItem : ${cartItemList}">
-                    <div class="col-12 col-md-6 mb-2">
+                    <div class="col-12 col-md-9 mb-2">
                       <div class="row align-items-center">                      
-                        <div class="col-4">
-                          <a th:href="@{/article-detail?id=}+${cartItem.article.id}"><img class="img-fluid" th:src="${cartItem.article.pictures} ? ${cartItem.article.pictures[0].pictureUrl} : @{/image/article/itemexample.jpg}" alt="${cartItem.article.title}"></a>
+                        <div class="col-6">
+                          <a class="picture" th:href="@{/article-detail?id=}+${cartItem.article.id}">
+                            <img class="card-img-top" th:src="${cartItem.article.pictures} ? ${cartItem.article.pictures[0].pictureUrl} : @{/image/article/itemexample.jpg}" alt="${cartItem.article.title}">
+                            <span class="sale" th:if="${cartItem.article.discount != null and cartItem.article.discount &gt; 0}" th:text="${'-' + cartItem.article.discount + '%'}"></span>
+                          </a>
                         </div>
-                        <div class="col-8">
+                        <div class="col-6">
                           <a th:href="@{/article-detail?id=}+${cartItem.article.id}" class="h6 bold d-inline-block" th:text=${cartItem.article.title}></a>
                             <div><i data-feather="check-circle" class="text-success"></i> Còn Hàng</div>                  
                             <div><small><b>Size</b>: <span th:text="${cartItem.size}"></span></small></div>                  
-                            <small><b>Đơn Giá</b>: <span th:text="${#numbers.formatDecimal(cartItem.article.price, 0, 'COMMA', 2, 'POINT')}"></span>K</small>
+                            <small>
+                              <b>Đơn Giá</b>:
+                              <span class="price" th:with="articleAfterDiscount=${cartItem.article.price - (cartItem.article.price * cartItem.article.discount / 100)}"
+                                    th:text="${#numbers.formatDecimal(articleAfterDiscount, 0, T(Math).round(articleAfterDiscount) == articleAfterDiscount ? 0 : 2)}+'K'"> </span>
+                            </small>
                         </div>
                       </div> 
                     </div>  
-                    <div class="col-12 col-md-6 text-right">
+                    <div class="col-12 col-md-3 text-right">
                       <span>x<span th:text="${cartItem.qty}"></span> units: </span>                           
                       <span class="font-weight-bold text-info"> <span th:id="'price'+${cartItem.id}" th:text="${#numbers.formatDecimal(cartItem.subtotal, 0, 'COMMA', 2, 'POINT')}"></span>K</span>
                     </div>                  

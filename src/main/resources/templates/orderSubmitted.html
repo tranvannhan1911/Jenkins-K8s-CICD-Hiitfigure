@@ -27,7 +27,7 @@
           </p>
           <p>
             <span class="text-muted">Số Lượng: </span>
-            <span class="text-info">K <span th:text="${order.orderTotal}"></span></span>
+            <span class="text-info"><span th:text="${#numbers.formatDecimal(order.orderTotal, 0, 'COMMA', 2, 'POINT')}"></span>K</span>
           </p>
           <p>Dự đoán ngày giao hàng <span th:text="${#dates.format(order.shippingDate, 'dd-MMM-yyyy')}"></span></p>
           <a th:href="@{/store}" class="btn btn-info rounded mb-3">TIẾP TỤC MUA SẮM</a>

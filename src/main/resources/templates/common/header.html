@@ -62,7 +62,7 @@
 							Cửa Hàng </a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/shopping-cart/cart}">Giỏ Hàng <span
 								class="badge badge-primary badge-pill" style="vertical-align: top;"
-								th:text="${shoppingCartItemNumber} > 0 ? ${shoppingCartItemNumber}"></span></a>
+								th:text="${shoppingCartItemNumber > 0 ? shoppingCartItemNumber : ''}"></span></a>
 					</li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/aboutus}">
 							Về Chúng Tôi </a></li>

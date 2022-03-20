@@ -27,7 +27,7 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<label for="category" class="col-2 col-form-label text-right">Thể Loại</label>
+					<label for="categories" class="col-2 col-form-label text-right">Thể Loại</label>
 					<div class="col-6">
 						<input type="text" class="form-control" id="categories"
 							name="category" data-role="tagsinput"
@@ -41,7 +41,7 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<label for="brand" class="col-2 col-form-label text-right">Sizes</label>
+					<label for="sizes" class="col-2 col-form-label text-right">Sizes</label>
 					<div class="col-6">
 						<input type="text" class="form-control" id="sizes" name="size"
 							data-role="tagsinput" th:value="${preselectedSizes}">
@@ -53,7 +53,7 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<label for="brand" class="col-2 col-form-label text-right">Nhãn Hàng</label>
+					<label for="brands" class="col-2 col-form-label text-right">Nhãn Hàng</label>
 					<div class="col-6">
 						<input type="text" class="form-control" id="brands" name="brand"
 							data-role="tagsinput" th:value="${preselectedBrands}">
@@ -79,6 +79,17 @@
 				</div>
 
 				<div class="form-group row">
+					<label for="discount" class="col-2 col-form-label text-right">Giảm giá</label>
+					<div class="col-6 input-group">
+						<input th:value="${article.discount}" type="number" name="discount" step="1" maxlength="100" minlength="0"
+							   max="100" min="0" class="form-control" id="discount" placeholder="Tỉ lệ %" />
+						<div class="input-group-append">
+							<span class="input-group-text" id="basic-addon2">%</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
 					<label for="stock" class="col-2 col-form-label text-right">Số Lượng Hiện Có</label>
 					<div class="col-6">
 						<input th:value="${article.stock}" type="number" name="stock"
@@ -88,7 +99,7 @@
 
 
 				<div class="form-group row">
-					<label for="picture" class="col-2 col-form-label text-right">Hình ảnh</label>
+					<label for="files" class="col-2 col-form-label text-right">Hình ảnh</label>
 					<div class="col-6">
 						<input type="file" class="form-control" id="files" name="files"
 							multiple>
@@ -96,7 +107,7 @@
 
 				</div>
 				<div class="form-group row">
-					<label for="picture" class="col-2 col-form-label text-right">Images</label>
+					<label for="old_picture_url" class="col-2 col-form-label text-right">Images</label>
 					<div class="col-6">
 						<input type="hidden" id="old_picture_url" name="old_picture_url"
 							th:value="${#strings.arrayJoin(article.pictures,',')}">
