@@ -3,6 +3,7 @@ package com.nico.store.store.service.impl;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import com.nico.store.store.domain.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public User createUser(String username, String email, String password, List<String> roles) {
+	public User createUser(String username, String email, String password, List<String> roles, String phoneNumber) {
 		User user = findByEmail(email);
 		if (user != null && user.isEnabled()) {
 			return user;
@@ -76,6 +77,7 @@ public class UserServiceImpl implements UserService {
 			user.setCode(code);
 			user.setTimeCode(LocalDateTime.now());
 			user.setEnabled(false);
+			user.getAddress().setZipCode(phoneNumber);
 
 			return userRepository.save(user);
 		}

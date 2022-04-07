@@ -62,6 +62,7 @@ public class User implements UserDetails {
 	private Set<UserRole> userRoles = new HashSet<>();
 
 	public User() {
+		if(this.address==null) this.address = new Address();
 	}
 
 	@Override

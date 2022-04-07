@@ -90,7 +90,8 @@ public class AccountController {
 	
 	@RequestMapping(value="/new-user", method=RequestMethod.POST)
 	public String newUserPost(@Valid @ModelAttribute("user") User user, BindingResult bindingResults,
-							  @ModelAttribute("new-password") String password, 
+							  @ModelAttribute("new-password") String password,
+							  @ModelAttribute("phone-number") String phoneNumber,
 							  RedirectAttributes redirectAttributes, Model model) {
 		model.addAttribute("email", user.getEmail());
 		boolean invalidFields = false;
@@ -109,7 +110,7 @@ public class AccountController {
 			return "redirect:/login";
 		}
 
-		user = userService.createUser(user.getUsername(),  user.getEmail(), password, Arrays.asList("ROLE_USER"));	
+		user = userService.createUser(user.getUsername(),  user.getEmail(), password, Arrays.asList("ROLE_USER"), phoneNumber);
 		userSecurityService.authenticateUser(user.getUsername());
 
 		senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "Code: " + user.getCode());
@@ -128,6 +129,7 @@ public class AccountController {
 			model.addAttribute("usernameExists", true);
 			return "verify";
 		}
+		System.out.println(sendNewCode);
 		if(sendNewCode.equals("Gửi lại")){
 			Random rand = new Random();
 			int codeNew = rand.nextInt(900000)+100000;
@@ -153,9 +155,10 @@ public class AccountController {
 		user.setEnabled(true);
 		userService.save(user);
 
-		model.addAttribute("user", user);
+//		model.addAttribute("user", user);
+		userSecurityService.authenticateUser(user.getUsername());
 
-		return "redirect:/my-profile";
+		return "myProfile";
 	}
 		
 	@RequestMapping(value="/update-user-info", method=RequestMethod.POST)
