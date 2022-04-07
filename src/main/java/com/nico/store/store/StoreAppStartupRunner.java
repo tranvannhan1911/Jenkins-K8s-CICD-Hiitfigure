@@ -20,7 +20,7 @@ public class StoreAppStartupRunner implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		userService.createUser("admin", "admin@hiitfigure.com", "admin", Arrays.asList("ROLE_USER", "ROLE_ADMIN"));
+		userService.createUser("admin", "admin@hiitfigure.com", "admin", Arrays.asList("ROLE_USER", "ROLE_ADMIN"), "0845963908");
 	}
 }
 

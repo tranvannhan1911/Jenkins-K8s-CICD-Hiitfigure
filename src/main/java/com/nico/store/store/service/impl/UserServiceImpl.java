@@ -1,10 +1,9 @@
 package com.nico.store.store.service.impl;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 
+import com.nico.store.store.domain.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +19,10 @@ import utility.SecurityUtility;
 
 @Service
 public class UserServiceImpl implements UserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
 
@@ -32,12 +31,12 @@ public class UserServiceImpl implements UserService {
 		Optional<User> opt = userRepository.findById(id);
 		return opt.orElse(null);
 	}
-	
+
 	@Override
 	public User findByUsername(String username) {
 		return userRepository.findByUsername(username);
 	}
-	
+
 
 	@Override
 	public User findByEmail(String email) {
@@ -51,15 +50,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public User createUser(String username, String email, String password, List<String> roles) {
-		User user = findByUsername(username);
-		if (user != null) {
+	public User createUser(String username, String email, String password, List<String> roles, String phoneNumber) {
+		User user = findByEmail(email);
+		if (user != null && user.isEnabled()) {
 			return user;
 		} else {
-			user = new User();
+			if(user == null) user = new User();
 			user.setUsername(username);
 			user.setPassword(SecurityUtility.passwordEncoder().encode(password));
-			user.setEmail(email);			
+			user.setEmail(email);
 			Set<UserRole> userRoles = new HashSet<>();
 			for (String rolename : roles) {
 				Role role = roleRepository.findByName(rolename);
@@ -69,10 +68,19 @@ public class UserServiceImpl implements UserService {
 					roleRepository.save(role);
 				}
 				userRoles.add(new UserRole(user, role));
-			}			
+			}
 			user.setUserRoles(userRoles);
+
+			Random rand = new Random();
+			int code = rand.nextInt(900000)+100000;
+
+			user.setCode(code);
+			user.setTimeCode(LocalDateTime.now());
+			user.setEnabled(false);
+			user.getAddress().setZipCode(phoneNumber);
+
 			return userRepository.save(user);
 		}
 	}
-	
+
 }

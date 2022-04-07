@@ -1,8 +1,11 @@
 package com.nico.store.store.controller;
 
 import java.security.Principal;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import javax.validation.Valid;
 
@@ -21,9 +24,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.nico.store.store.domain.Address;
 import com.nico.store.store.domain.Order;
 import com.nico.store.store.domain.User;
-import com.nico.store.store.domain.security.UserRole;
 import com.nico.store.store.service.OrderService;
 import com.nico.store.store.service.UserService;
+import com.nico.store.store.service.impl.EmailSenderService;
 import com.nico.store.store.service.impl.UserSecurityService;
 
 import utility.SecurityUtility;
@@ -39,6 +42,9 @@ public class AccountController {
 	
 	@Autowired
 	private OrderService orderService;
+
+	@Autowired
+	private EmailSenderService senderService;
 
 	@RequestMapping("/login")
 	public String log(Model model) {
@@ -84,28 +90,75 @@ public class AccountController {
 	
 	@RequestMapping(value="/new-user", method=RequestMethod.POST)
 	public String newUserPost(@Valid @ModelAttribute("user") User user, BindingResult bindingResults,
-							  @ModelAttribute("new-password") String password, 
+							  @ModelAttribute("new-password") String password,
+							  @ModelAttribute("phone-number") String phoneNumber,
 							  RedirectAttributes redirectAttributes, Model model) {
 		model.addAttribute("email", user.getEmail());
-		model.addAttribute("username", user.getUsername());	
 		boolean invalidFields = false;
 		if (bindingResults.hasErrors()) {
 			return "redirect:/login";
-		}		
-		if (userService.findByUsername(user.getUsername()) != null) {
+		}
+		if (userService.findByUsername(user.getUsername()) != null && userService.findByEmail(user.getEmail()).isEnabled()) {
 			redirectAttributes.addFlashAttribute("usernameExists", true);
 			invalidFields = true;
 		}
-		if (userService.findByEmail(user.getEmail()) != null) {
+		if (userService.findByEmail(user.getEmail()) != null && userService.findByEmail(user.getEmail()).isEnabled()) {
 			redirectAttributes.addFlashAttribute("emailExists", true);
 			invalidFields = true;
 		}	
 		if (invalidFields) {
 			return "redirect:/login";
-		}		
-		user = userService.createUser(user.getUsername(),  user.getEmail(), password, Arrays.asList("ROLE_USER"));	
+		}
+
+		user = userService.createUser(user.getUsername(),  user.getEmail(), password, Arrays.asList("ROLE_USER"), phoneNumber);
 		userSecurityService.authenticateUser(user.getUsername());
-		return "redirect:/my-profile";  
+
+		senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "Code: " + user.getCode());
+
+		return "verify";
+	}
+
+	@RequestMapping(value="/verify-mail", method=RequestMethod.POST)
+	public String verifyMail(@ModelAttribute("email") String email,
+							 @ModelAttribute("verify-code") String code,
+							 @ModelAttribute("new-code") String sendNewCode,
+							 Model model){
+		User user = userService.findByEmail(email);
+
+		if(user==null || user.isEnabled()){
+			model.addAttribute("usernameExists", true);
+			return "verify";
+		}
+		System.out.println(sendNewCode);
+		if(sendNewCode.equals("Gửi lại")){
+			Random rand = new Random();
+			int codeNew = rand.nextInt(900000)+100000;
+
+			user.setCode(codeNew);
+			user.setTimeCode(LocalDateTime.now());
+			userService.save(user);
+
+			model.addAttribute("email", user.getEmail());
+			senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "Code: " + user.getCode());
+
+			return "verify";
+		}
+		if(!Integer.toString(user.getCode()).equals(code)){
+			model.addAttribute("codeMismatched", true);
+			return "verify";
+		}
+		if(Duration.between(user.getTimeCode(), LocalDateTime.now()).toMinutes()>5){
+			model.addAttribute("outTimeCode", true);
+			return "verify";
+		}
+
+		user.setEnabled(true);
+		userService.save(user);
+
+//		model.addAttribute("user", user);
+		userSecurityService.authenticateUser(user.getUsername());
+
+		return "myProfile";
 	}
 		
 	@RequestMapping(value="/update-user-info", method=RequestMethod.POST)
