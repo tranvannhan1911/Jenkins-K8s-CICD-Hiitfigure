@@ -111,7 +111,7 @@ public class AccountController {
 		}
 
 		user = userService.createUser(user.getUsername(),  user.getEmail(), password, Arrays.asList("ROLE_USER"), phoneNumber);
-		userSecurityService.authenticateUser(user.getUsername());
+//		userSecurityService.authenticateUser(user.getUsername());
 
 		senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "Code: " + user.getCode());
 
@@ -155,8 +155,8 @@ public class AccountController {
 		user.setEnabled(true);
 		userService.save(user);
 
-//		model.addAttribute("user", user);
-		userSecurityService.authenticateUser(user.getUsername());
+		model.addAttribute("user", user);
+//		userSecurityService.authenticateUser(user.getUsername());
 
 		return "myProfile";
 	}
