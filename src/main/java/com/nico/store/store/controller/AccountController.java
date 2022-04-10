@@ -155,8 +155,8 @@ public class AccountController {
 		user.setEnabled(true);
 		userService.save(user);
 
-		model.addAttribute("user", user);
-//		userSecurityService.authenticateUser(user.getUsername());
+//		model.addAttribute("user", user);
+		userSecurityService.authenticateUser(user.getUsername());
 
 		return "myProfile";
 	}
