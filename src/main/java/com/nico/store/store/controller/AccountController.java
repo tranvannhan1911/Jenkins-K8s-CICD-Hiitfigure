@@ -111,7 +111,7 @@ public class AccountController {
 		}
 
 		user = userService.createUser(user.getUsername(),  user.getEmail(), password, Arrays.asList("ROLE_USER"), phoneNumber);
-//		userSecurityService.authenticateUser(user.getUsername());
+		userSecurityService.authenticateUser(user.getUsername());
 
 		senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "Code: " + user.getCode());
 
@@ -130,7 +130,7 @@ public class AccountController {
 			return "verify";
 		}
 		System.out.println(sendNewCode);
-		if(sendNewCode.equals("Gửi lại")){
+		if(sendNewCode.equals("Gửi lại") && Duration.between(user.getTimeCode(), LocalDateTime.now()).toMinutes()>5){
 			Random rand = new Random();
 			int codeNew = rand.nextInt(900000)+100000;
 
@@ -156,7 +156,7 @@ public class AccountController {
 		userService.save(user);
 
 		model.addAttribute("user", user);
-//		userSecurityService.authenticateUser(user.getUsername());
+		userSecurityService.authenticateUser(user.getUsername());
 
 		return "myProfile";
 	}

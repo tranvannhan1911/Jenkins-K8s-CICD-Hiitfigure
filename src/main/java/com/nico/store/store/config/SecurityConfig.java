@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/",
 			"/new-user",
 			"/login",
+			"/verify-mail",
 			"/store",
 			"/article-detail",
 			"/policy",
@@ -56,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logoutSuccessUrl("/?logout").deleteCookies("remember-me").permitAll()
 			.and()
 			.rememberMe().key("aSecretKey");
+
 	}
 	
 	@Autowired
