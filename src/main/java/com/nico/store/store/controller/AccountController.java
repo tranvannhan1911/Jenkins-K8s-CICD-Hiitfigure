@@ -127,7 +127,6 @@ public class AccountController {
 			model.addAttribute("usernameExists", true);
 			return "verify";
 		}
-		System.out.println(sendNewCode);
 		if(sendNewCode.equals("Gửi lại")){
 			if(Duration.between(user.getTimeCode(), LocalDateTime.now()).toMinutes()<5){
 				model.addAttribute("onTime", true);

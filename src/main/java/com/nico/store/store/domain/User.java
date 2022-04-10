@@ -61,9 +61,7 @@ public class User implements UserDetails {
 	@JsonIgnore
 	private Set<UserRole> userRoles = new HashSet<>();
 
-	public User() {
-		if(this.address==null) this.address = new Address();
-	}
+	public User() {}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -152,12 +150,11 @@ public class User implements UserDetails {
 	}
 
 	public Address getAddress() {
+		if(null==this.address) this.address = new Address();
 		return address;
 	}
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+	public void setAddress(Address address) { this.address = address;}
 
 	public Set<UserRole> getUserRoles() {
 		return userRoles;
