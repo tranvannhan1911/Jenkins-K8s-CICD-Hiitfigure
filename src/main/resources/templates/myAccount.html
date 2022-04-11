@@ -68,15 +68,16 @@
                   <div class="form-group">
                     <div class="input-icon">
                       <i data-feather="phone"></i>
-                      <input required="required" type="text" class="form-control"
+                      <input required="required" type="text" class="form-control" th:classappend="${numberPhoneExists} ? is-invalid"
                              name="phone-number" placeholder="Số điện thoại">
+                      <div class="invalid-feedback">Số điện thoại không hợp lệ</div>
                     </div>
                   </div>
                   <div class="form-group">
                     <div class="input-icon"> 
                       <i data-feather="user"></i> 
                       <input required="required" type="text" class="form-control" th:classappend="${usernameExists} ? is-invalid"
-                             placeholder="Tên đăng nhập" name="username" th:value="${username}">
+                             placeholder="Tên đăng nhập" name="username">
                       <div class="invalid-feedback">Tên đăng nhập đã tồn tại</div>
                     </div>
                   </div>

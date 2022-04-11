@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,11 +95,14 @@ public class AccountController {
 							  @ModelAttribute("phone-number") String phoneNumber,
 							  RedirectAttributes redirectAttributes, Model model) {
 		model.addAttribute("email", user.getEmail());
+
 		boolean invalidFields = false;
 		if (bindingResults.hasErrors()) {
 			return "redirect:/login";
 		}
-		if (userService.findByUsername(user.getUsername()) != null && userService.findByUsername(user.getUsername()).isEnabled()) {
+		if (userService.findByUsername(user.getUsername()) != null
+				&& (!userService.findByUsername(user.getUsername()).getEmail().equals(user.getEmail())
+					|| userService.findByUsername(user.getUsername()).isEnabled())) {
 			redirectAttributes.addFlashAttribute("usernameExists", true);
 			invalidFields = true;
 		}
@@ -110,6 +112,10 @@ public class AccountController {
 		}
 		if(!password1.equals(password2)){
 			redirectAttributes.addFlashAttribute("passwordExists", true);
+			invalidFields = true;
+		}
+		if(!phoneNumber.matches("[0-9]{10}")){
+			redirectAttributes.addFlashAttribute("numberPhoneExists", true);
 			invalidFields = true;
 		}
 		if (invalidFields) {
@@ -126,7 +132,7 @@ public class AccountController {
 	public String verifyMail(@ModelAttribute("email") String email,
 							 @ModelAttribute("verify-code") String code,
 							 @ModelAttribute("new-code") String sendNewCode,
-							 Model model){
+							 RedirectAttributes redirectAttributes, Model model){
 		User user = userService.findByEmail(email);
 
 		if(user==null || user.isEnabled()){
