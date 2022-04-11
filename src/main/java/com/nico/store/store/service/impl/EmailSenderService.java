@@ -3,7 +3,11 @@ package com.nico.store.store.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 @Service
 public class EmailSenderService implements com.nico.store.store.service.EmailSenderService {
@@ -14,15 +18,20 @@ public class EmailSenderService implements com.nico.store.store.service.EmailSen
     @Override
     public void sendEmail(String toEmail,
                    String subject,
-                   String body){
-        SimpleMailMessage message = new SimpleMailMessage();
+                   String body) {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
 
-        message.setFrom("hiitfigureofficial@gmail.com");
-        message.setTo(toEmail);
-        message.setText(body);
-        message.setSubject(subject);
+        try {
+            helper.setText(body, true);
+            helper.setTo(toEmail);
+            helper.setSubject(subject);
+            helper.setFrom("hiitfigureofficial@gmail.com");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
 
-        mailSender.send(message);
+        mailSender.send(mimeMessage);
         System.out.println("Mail send...");
     }
 }

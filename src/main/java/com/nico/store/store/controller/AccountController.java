@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +91,8 @@ public class AccountController {
 	
 	@RequestMapping(value="/new-user", method=RequestMethod.POST)
 	public String newUserPost(@Valid @ModelAttribute("user") User user, BindingResult bindingResults,
-							  @ModelAttribute("new-password") String password,
+							  @ModelAttribute("new-password-1") String password1,
+							  @ModelAttribute("new-password-2") String password2,
 							  @ModelAttribute("phone-number") String phoneNumber,
 							  RedirectAttributes redirectAttributes, Model model) {
 		model.addAttribute("email", user.getEmail());
@@ -98,20 +100,24 @@ public class AccountController {
 		if (bindingResults.hasErrors()) {
 			return "redirect:/login";
 		}
-		if (userService.findByUsername(user.getUsername()) != null && userService.findByEmail(user.getEmail()).isEnabled()) {
+		if (userService.findByUsername(user.getUsername()) != null && userService.findByUsername(user.getUsername()).isEnabled()) {
 			redirectAttributes.addFlashAttribute("usernameExists", true);
 			invalidFields = true;
 		}
 		if (userService.findByEmail(user.getEmail()) != null && userService.findByEmail(user.getEmail()).isEnabled()) {
 			redirectAttributes.addFlashAttribute("emailExists", true);
 			invalidFields = true;
-		}	
+		}
+		if(!password1.equals(password2)){
+			redirectAttributes.addFlashAttribute("passwordExists", true);
+			invalidFields = true;
+		}
 		if (invalidFields) {
 			return "redirect:/login";
 		}
 
-		user = userService.createUser(user.getUsername(),  user.getEmail(), password, Arrays.asList("ROLE_USER"), phoneNumber);
-		senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "Code: " + user.getCode());
+		user = userService.createUser(user.getUsername(),  user.getEmail(), password2, Arrays.asList("ROLE_USER"), phoneNumber);
+		senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "<h1 style=\"color:red;\"}>Code: </h1>" + user.getCode());
 
 		return "verify";
 	}
