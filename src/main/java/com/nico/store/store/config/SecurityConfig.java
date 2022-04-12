@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/new-user",
 			"/login",
 			"/verify",
+			"/verify-mail",
 			"/store",
 			"/article-detail",
 			"/policy",

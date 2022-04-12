@@ -77,12 +77,9 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/verify", method = RequestMethod.GET)
-	public String getVerify(Model model){
-		model.addAttribute("usernameExists", model.asMap().get("usernameExists"));
-		model.addAttribute("onTime", model.asMap().get("onTime"));
-		model.addAttribute("codeMismatched", model.asMap().get("codeMismatched"));
-		model.addAttribute("outTimeCode", model.asMap().get("outTimeCode"));
-		model.addAttribute("email", model.asMap().get("email"));
+	public String getVerify(Model model, @ModelAttribute("email") String email){
+		model.addAttribute("email", email);
+		model.addAttribute("emailExists", model.asMap().get("emailExists"));
 		return "verify";
 	}
 	
@@ -104,7 +101,7 @@ public class AccountController {
 							  @ModelAttribute("new-password-2") String password2,
 							  @ModelAttribute("phone-number") String phoneNumber,
 							  RedirectAttributes redirectAttributes, Model model) {
-		model.addAttribute("email", user.getEmail());
+		redirectAttributes.addFlashAttribute("email", user.getEmail());
 
 		boolean invalidFields = false;
 		if (bindingResults.hasErrors()) {
@@ -139,14 +136,20 @@ public class AccountController {
 	}
 
 	@RequestMapping(value="/verify-mail", method=RequestMethod.POST)
-	public String verifyMail(@ModelAttribute("email") String email,
+	public String verifyMail(@ModelAttribute("email") String email, BindingResult bindingResults,
 							 @ModelAttribute("verify-code") String code,
 							 @ModelAttribute("new-code") String sendNewCode,
 							 RedirectAttributes redirectAttributes, Model model){
 		User user = userService.findByEmail(email);
-		model.addAttribute("email", user.getEmail());
+		redirectAttributes.addFlashAttribute("email", user.getEmail());
+
+		if (bindingResults.hasErrors()) {
+			return "redirect:/login";
+		}
+
 		if(user==null || user.isEnabled()){
-			model.addAttribute("usernameExists", true);
+//			model.addAttribute("usernameExists", true);
+			redirectAttributes.addFlashAttribute("emailExists", true);
 			return "redirect:/verify";
 		}
 		if(sendNewCode.equals("Gửi lại")){
