@@ -75,6 +75,16 @@ public class AccountController {
 		model.addAttribute("user", user);
 		return "myAddress";
 	}
+
+	@RequestMapping(value = "/verify", method = RequestMethod.GET)
+	public String getVerify(Model model){
+		model.addAttribute("usernameExists", model.asMap().get("usernameExists"));
+		model.addAttribute("onTime", model.asMap().get("onTime"));
+		model.addAttribute("codeMismatched", model.asMap().get("codeMismatched"));
+		model.addAttribute("outTimeCode", model.asMap().get("outTimeCode"));
+		model.addAttribute("email", model.asMap().get("email"));
+		return "verify";
+	}
 	
 	@RequestMapping(value="/update-user-address", method=RequestMethod.POST)
 	public String updateUserAddress(@ModelAttribute("address") Address address, 
@@ -125,7 +135,7 @@ public class AccountController {
 		user = userService.createUser(user.getUsername(),  user.getEmail(), password2, Arrays.asList("ROLE_USER"), phoneNumber);
 		senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "<h1 style=\"color:red;\"}>Code: </h1>" + user.getCode());
 
-		return "verify";
+		return "redirect:/verify";
 	}
 
 	@RequestMapping(value="/verify-mail", method=RequestMethod.POST)
@@ -134,15 +144,15 @@ public class AccountController {
 							 @ModelAttribute("new-code") String sendNewCode,
 							 RedirectAttributes redirectAttributes, Model model){
 		User user = userService.findByEmail(email);
-
+		model.addAttribute("email", user.getEmail());
 		if(user==null || user.isEnabled()){
 			model.addAttribute("usernameExists", true);
-			return "verify";
+			return "redirect:/verify";
 		}
 		if(sendNewCode.equals("Gửi lại")){
 			if(Duration.between(user.getTimeCode(), LocalDateTime.now()).toMinutes()<5){
 				model.addAttribute("onTime", true);
-				return "verify";
+				return "redirect:/verify";
 			}
 			Random rand = new Random();
 			int codeNew = rand.nextInt(900000)+100000;
@@ -154,21 +164,20 @@ public class AccountController {
 			model.addAttribute("email", user.getEmail());
 			senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "Code: " + user.getCode());
 
-			return "verify";
+			return "redirect:/verify";
 		}
 		if(!Integer.toString(user.getCode()).equals(code)){
 			model.addAttribute("codeMismatched", true);
-			return "verify";
+			return "redirect:/verify";
 		}
 		if(Duration.between(user.getTimeCode(), LocalDateTime.now()).toMinutes()>5){
 			model.addAttribute("outTimeCode", true);
-			return "verify";
+			return "redirect:/verify";
 		}
 
 		user.setEnabled(true);
 		userService.save(user);
 
-		model.addAttribute("user", user);
 		userSecurityService.authenticateUser(user.getUsername());
 
 		return "myProfile";
