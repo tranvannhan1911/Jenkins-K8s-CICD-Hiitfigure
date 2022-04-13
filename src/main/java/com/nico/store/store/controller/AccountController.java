@@ -77,9 +77,12 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/verify", method = RequestMethod.GET)
-	public String getVerify(Model model, @ModelAttribute("email") String email){
-		model.addAttribute("email", email);
+	public String getVerify(Model model){
+		model.addAttribute("email", model.asMap().get("email"));
 		model.addAttribute("emailExists", model.asMap().get("emailExists"));
+		model.addAttribute("onTime", model.asMap().get("onTime"));
+		model.addAttribute("codeMismatched", model.asMap().get("codeMismatched"));
+		model.addAttribute("outTimeCode", model.asMap().get("outTimeCode"));
 		return "verify";
 	}
 	
@@ -130,31 +133,30 @@ public class AccountController {
 		}
 
 		user = userService.createUser(user.getUsername(),  user.getEmail(), password2, Arrays.asList("ROLE_USER"), phoneNumber);
-		senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "<h1 style=\"color:red;\"}>Code: </h1>" + user.getCode());
+		senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "Code: " + user.getCode());
 
 		return "redirect:/verify";
 	}
 
-	@RequestMapping(value="/verify-mail", method=RequestMethod.POST)
+	@RequestMapping(value="/verify", method=RequestMethod.POST)
 	public String verifyMail(@ModelAttribute("email") String email, BindingResult bindingResults,
 							 @ModelAttribute("verify-code") String code,
 							 @ModelAttribute("new-code") String sendNewCode,
 							 RedirectAttributes redirectAttributes, Model model){
 		User user = userService.findByEmail(email);
-		redirectAttributes.addFlashAttribute("email", user.getEmail());
+		redirectAttributes.addFlashAttribute("email", email);
 
 		if (bindingResults.hasErrors()) {
-			return "redirect:/login";
+			return "redirect:/verify";
 		}
 
 		if(user==null || user.isEnabled()){
-//			model.addAttribute("usernameExists", true);
 			redirectAttributes.addFlashAttribute("emailExists", true);
 			return "redirect:/verify";
 		}
 		if(sendNewCode.equals("Gửi lại")){
 			if(Duration.between(user.getTimeCode(), LocalDateTime.now()).toMinutes()<5){
-				model.addAttribute("onTime", true);
+				redirectAttributes.addFlashAttribute("onTime", true);
 				return "redirect:/verify";
 			}
 			Random rand = new Random();
@@ -164,24 +166,23 @@ public class AccountController {
 			user.setTimeCode(LocalDateTime.now());
 			userService.save(user);
 
-			model.addAttribute("email", user.getEmail());
 			senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "Code: " + user.getCode());
 
 			return "redirect:/verify";
 		}
 		if(!Integer.toString(user.getCode()).equals(code)){
-			model.addAttribute("codeMismatched", true);
+			redirectAttributes.addFlashAttribute("codeMismatched", true);
 			return "redirect:/verify";
 		}
 		if(Duration.between(user.getTimeCode(), LocalDateTime.now()).toMinutes()>5){
-			model.addAttribute("outTimeCode", true);
+			redirectAttributes.addFlashAttribute("outTimeCode", true);
 			return "redirect:/verify";
 		}
 
 		user.setEnabled(true);
 		userService.save(user);
-
 		userSecurityService.authenticateUser(user.getUsername());
+		model.addAttribute(user);
 
 		return "myProfile";
 	}

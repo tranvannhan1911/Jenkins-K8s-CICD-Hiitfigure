@@ -34,7 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/new-user",
 			"/login",
 			"/verify",
-			"/verify-mail",
 			"/store",
 			"/article-detail",
 			"/policy",
@@ -58,11 +57,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logoutSuccessUrl("/?logout").deleteCookies("remember-me").permitAll()
 			.and()
 			.rememberMe().key("aSecretKey");
-		http
-				.authorizeRequests()
-				.antMatchers(PUBLIC_MATCHERS).permitAll()
-				.antMatchers("/verify/**").hasAnyAuthority("ADMIN", "USER")
-				.anyRequest().authenticated();
 	}
 	
 	@Autowired
