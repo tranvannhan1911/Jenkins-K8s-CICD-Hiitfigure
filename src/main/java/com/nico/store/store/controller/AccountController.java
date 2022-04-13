@@ -100,6 +100,7 @@ public class AccountController {
 	
 	@RequestMapping(value="/new-user", method=RequestMethod.POST)
 	public String newUserPost(@Valid @ModelAttribute("user") User user, BindingResult bindingResults,
+							  @ModelAttribute("username") String username,
 							  @ModelAttribute("new-password-1") String password1,
 							  @ModelAttribute("new-password-2") String password2,
 							  @ModelAttribute("phone-number") String phoneNumber,
@@ -110,9 +111,10 @@ public class AccountController {
 		if (bindingResults.hasErrors()) {
 			return "redirect:/login";
 		}
-		if (userService.findByUsername(user.getUsername()) != null
+		if ((userService.findByUsername(user.getUsername()) != null
 				&& (!userService.findByUsername(user.getUsername()).getEmail().equals(user.getEmail())
-					|| userService.findByUsername(user.getUsername()).isEnabled())) {
+					|| userService.findByUsername(user.getUsername()).isEnabled()))
+				|| !username.matches("^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$")) {
 			redirectAttributes.addFlashAttribute("usernameExists", true);
 			invalidFields = true;
 		}
