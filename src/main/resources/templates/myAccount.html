@@ -84,7 +84,7 @@
                   <div class="form-group">
                     <div class="input-icon"> 
                       <i data-feather="lock"></i> <input type="password" required="required"
-                        class="form-control" name="new-password-1"
+                        class="form-control" name="new-password"
                         placeholder="Mật khẩu"
                        th:classappend="${passwordExists} ? is-invalid">
                       <div class="invalid-feedback">Mật khẩu không trùng khớp</div>
@@ -94,7 +94,7 @@
                     <div class="input-icon">
                       <i data-feather="lock"></i>
                       <input type="password" required="required"
-                             class="form-control" name="new-password-2"
+                             class="form-control" name="confirm-password"
                              placeholder="Xác nhận mật khẩu"
                               th:classappend="${passwordExists} ? is-invalid">
                       <div class="invalid-feedback">Mật khẩu không trùng khớp</div>

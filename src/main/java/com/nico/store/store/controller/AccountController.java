@@ -101,8 +101,8 @@ public class AccountController {
 	@RequestMapping(value="/new-user", method=RequestMethod.POST)
 	public String newUserPost(@Valid @ModelAttribute("user") User user, BindingResult bindingResults,
 							  @ModelAttribute("username") String username,
-							  @ModelAttribute("new-password-1") String password1,
-							  @ModelAttribute("new-password-2") String password2,
+							  @ModelAttribute("new-password") String newPassword,
+							  @ModelAttribute("confirm-password") String confirmPassword,
 							  @ModelAttribute("phone-number") String phoneNumber,
 							  RedirectAttributes redirectAttributes, Model model) {
 		redirectAttributes.addFlashAttribute("email", user.getEmail());
@@ -122,7 +122,7 @@ public class AccountController {
 			redirectAttributes.addFlashAttribute("emailExists", true);
 			invalidFields = true;
 		}
-		if(!password1.equals(password2)){
+		if(!newPassword.equals(confirmPassword)){
 			redirectAttributes.addFlashAttribute("passwordExists", true);
 			invalidFields = true;
 		}
@@ -134,7 +134,7 @@ public class AccountController {
 			return "redirect:/login";
 		}
 
-		user = userService.createUser(user.getUsername(),  user.getEmail(), password2, Arrays.asList("ROLE_USER"), phoneNumber);
+		user = userService.createUser(user.getUsername(),  user.getEmail(), confirmPassword, Arrays.asList("ROLE_USER"), phoneNumber);
 		senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "Code: " + user.getCode());
 
 		return "redirect:/verify";

@@ -1,7 +1,7 @@
 package com.nico.store.store.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,9 @@ public class EmailSenderService implements com.nico.store.store.service.EmailSen
     @Autowired
     private JavaMailSender mailSender;
 
+    @Value("${spring.mail.username}")
+    private String email;
+
     @Override
     public void sendEmail(String toEmail,
                    String subject,
@@ -26,7 +29,7 @@ public class EmailSenderService implements com.nico.store.store.service.EmailSen
             helper.setText(body, true);
             helper.setTo(toEmail);
             helper.setSubject(subject);
-            helper.setFrom("hiitfigureofficial@gmail.com");
+            helper.setFrom(email);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
