@@ -104,8 +104,9 @@ public class AccountController {
 							  @ModelAttribute("new-password") String newPassword,
 							  @ModelAttribute("confirm-password") String confirmPassword,
 							  @ModelAttribute("phone-number") String phoneNumber,
+							  @ModelAttribute("email") String email,
 							  RedirectAttributes redirectAttributes, Model model) {
-		redirectAttributes.addFlashAttribute("email", user.getEmail());
+		redirectAttributes.addFlashAttribute("email", email);
 
 		boolean invalidFields = false;
 		if (bindingResults.hasErrors()) {
@@ -118,14 +119,14 @@ public class AccountController {
 			invalidFields = true;
 		}
 		User checkEmail = userService.findByEmail(user.getEmail());
-		if (checkEmail != null && checkEmail.isEnabled()) {
+		if ((checkEmail != null && checkEmail.isEnabled()) || !email.matches("^[a-z][a-z0-9_\\.]{5,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$")) {
 			redirectAttributes.addFlashAttribute("emailExists", true);
 			invalidFields = true;
 		}
 		if(!newPassword.equals(confirmPassword)){
 			redirectAttributes.addFlashAttribute("passwordExists", true);
 			invalidFields = true;
-		} else if(!confirmPassword.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")){
+		} else if(!confirmPassword.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&_])[A-Za-z\\d@$!%*?&_]{8,}$")){
 			redirectAttributes.addFlashAttribute("validatePassword", true);
 			invalidFields = true;
 		}
