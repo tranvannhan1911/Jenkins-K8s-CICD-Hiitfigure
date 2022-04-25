@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import javax.validation.Valid;
@@ -119,14 +120,14 @@ public class AccountController {
 			invalidFields = true;
 		}
 		User checkEmail = userService.findByEmail(user.getEmail());
-		if ((checkEmail != null && checkEmail.isEnabled()) || !email.matches("^[a-z][a-z0-9_\\.]{5,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$")) {
+		if ((checkEmail != null && checkEmail.isEnabled()) || !email.toLowerCase().matches("^[a-z][a-z0-9_\\.]{5,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$")) {
 			redirectAttributes.addFlashAttribute("emailExists", true);
 			invalidFields = true;
 		}
 		if(!newPassword.equals(confirmPassword)){
 			redirectAttributes.addFlashAttribute("passwordExists", true);
 			invalidFields = true;
-		} else if(!confirmPassword.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&_])[A-Za-z\\d@$!%*?&_]{8,}$")){
+		} else if(!confirmPassword.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&_])[A-Za-z\\d@$!%*?&_]{8,20}$")){
 			redirectAttributes.addFlashAttribute("validatePassword", true);
 			invalidFields = true;
 		}
