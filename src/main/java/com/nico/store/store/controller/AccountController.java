@@ -111,14 +111,14 @@ public class AccountController {
 		if (bindingResults.hasErrors()) {
 			return "redirect:/login";
 		}
-		if ((userService.findByUsername(user.getUsername()) != null
-				&& (!userService.findByUsername(user.getUsername()).getEmail().equals(user.getEmail())
-					|| userService.findByUsername(user.getUsername()).isEnabled()))
+		User checkUser = userService.findByUsername(user.getUsername());
+		if ((checkUser != null && (!checkUser.getEmail().equals(user.getEmail()) || checkUser.isEnabled()))
 				|| !username.matches("^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$")) {
 			redirectAttributes.addFlashAttribute("usernameExists", true);
 			invalidFields = true;
 		}
-		if (userService.findByEmail(user.getEmail()) != null && userService.findByEmail(user.getEmail()).isEnabled()) {
+		User checkEmail = userService.findByEmail(user.getEmail());
+		if (checkEmail != null && checkEmail.isEnabled()) {
 			redirectAttributes.addFlashAttribute("emailExists", true);
 			invalidFields = true;
 		}
