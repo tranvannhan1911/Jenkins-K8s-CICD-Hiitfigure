@@ -53,6 +53,12 @@
 
               <!-- Register Form -->
               <div class="col-md-6 col-register">
+                <div th:if="${validatePassword}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>Mật khẩu tối thiểu 8 kí tự với ít nhất 1 ký tự đặc biệt 1 chữ in hoa 1 chữ in thường và 1 số!</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
                 <form th:action="@{/new-user}" method="post">
                   <div class="form-group text-center">
                     <h2 class="bold">Register</h2>
@@ -75,7 +81,7 @@
                   </div>
                   <div class="form-group">
                     <div class="input-icon"> 
-                      <i data-feather="user"></i> 
+                      <i data-feather="user"></i>
                       <input required="required" type="text" class="form-control" th:classappend="${usernameExists} ? is-invalid"
                              placeholder="Tên đăng nhập" name="username" maxlength="20">
                       <div class="invalid-feedback">Tên đăng nhập đã tồn tại hoặc không hợp lệ</div>
@@ -83,7 +89,8 @@
                   </div>
                   <div class="form-group">
                     <div class="input-icon"> 
-                      <i data-feather="lock"></i> <input type="password" required="required"
+                      <i data-feather="lock"></i>
+                      <input type="password" required="required"
                         class="form-control" name="new-password"
                         placeholder="Mật khẩu"
                        th:classappend="${passwordExists} ? is-invalid">

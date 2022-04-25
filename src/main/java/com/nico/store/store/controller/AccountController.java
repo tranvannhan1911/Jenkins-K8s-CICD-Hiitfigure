@@ -125,8 +125,11 @@ public class AccountController {
 		if(!newPassword.equals(confirmPassword)){
 			redirectAttributes.addFlashAttribute("passwordExists", true);
 			invalidFields = true;
+		} else if(!confirmPassword.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")){
+			redirectAttributes.addFlashAttribute("validatePassword", true);
+			invalidFields = true;
 		}
-		if(!phoneNumber.matches("[0-9]{10}")){
+		if(!phoneNumber.matches("((09|03|07|08|05)+([0-9]{8})\\b)")){
 			redirectAttributes.addFlashAttribute("numberPhoneExists", true);
 			invalidFields = true;
 		}
