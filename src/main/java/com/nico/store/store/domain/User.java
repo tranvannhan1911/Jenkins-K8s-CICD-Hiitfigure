@@ -1,5 +1,6 @@
 package com.nico.store.store.domain;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,16 +29,16 @@ import com.nico.store.store.domain.security.Authority;
 import com.nico.store.store.domain.security.UserRole;
 
 @NamedEntityGraph(
-	name= "UserComplete",
-	attributeNodes= { @NamedAttributeNode(value="userRoles", subgraph="role-subgraph") },
-	subgraphs= { 
-		@NamedSubgraph(name = "role-subgraph", attributeNodes = {  @NamedAttributeNode("role") }
-	)}
+		name= "UserComplete",
+		attributeNodes= { @NamedAttributeNode(value="userRoles", subgraph="role-subgraph") },
+		subgraphs= {
+				@NamedSubgraph(name = "role-subgraph", attributeNodes = {  @NamedAttributeNode("role") }
+				)}
 )
 @Entity
 @SuppressWarnings("serial")
 public class User implements UserDetails {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id", nullable=false, updatable=false)
@@ -47,18 +48,20 @@ public class User implements UserDetails {
 	private String password;
 	private String firstName;
 	private String lastName;
+	private boolean isEnabled;
+	private int code;
+	private LocalDateTime timeCode;
 	@NotNull
 	@Email
 	private String email;
 	@OneToOne(cascade= CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="address_id")
-	private Address address;	
+	private Address address;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Set<UserRole> userRoles = new HashSet<>();
-	
-	public User() {
-	}
+
+	public User() {}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -69,9 +72,9 @@ public class User implements UserDetails {
 
 	@Override
 	public String toString() {
-	  return getClass().getSimpleName() + "[id=" + id + "]" + "[username=" + username + "]" + "[password=" + password + "]" + "[email=" + email + "]";
+		return getClass().getSimpleName() + "[id=" + id + "]" + "[username=" + username + "]" + "[password=" + password + "]" + "[email=" + email + "]";
 	}
-	
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -86,54 +89,72 @@ public class User implements UserDetails {
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return this.isEnabled;
 	}
-	
+
+	public void setEnabled(boolean enabled) {
+		isEnabled = enabled;
+	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	@Override
 	public String getUsername() {
 		return username;
 	}
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
+	@Override
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public Address getAddress() {
+		if(null==this.address) this.address = new Address();
 		return address;
 	}
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+
+	public void setAddress(Address address) { this.address = address;}
 
 	public Set<UserRole> getUserRoles() {
 		return userRoles;
@@ -142,8 +163,22 @@ public class User implements UserDetails {
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
 	}
-	
-}
 
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
+
+	public LocalDateTime getTimeCode() {
+		return timeCode;
+	}
+
+	public void setTimeCode(LocalDateTime timeCode) {
+		this.timeCode = timeCode;
+	}
+}
 
 

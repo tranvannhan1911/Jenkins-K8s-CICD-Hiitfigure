@@ -15,6 +15,6 @@ public interface UserService {
 
 	void save(User user);
 
-	User createUser(String username, String email, String password, List<String> roles);
+	User createUser(String username, String email, String password, List<String> roles, String phoneNumber);
 
 }

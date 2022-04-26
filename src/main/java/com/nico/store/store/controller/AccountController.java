@@ -1,8 +1,12 @@
 package com.nico.store.store.controller;
 
 import java.security.Principal;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 
 import javax.validation.Valid;
 
@@ -21,9 +25,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.nico.store.store.domain.Address;
 import com.nico.store.store.domain.Order;
 import com.nico.store.store.domain.User;
-import com.nico.store.store.domain.security.UserRole;
 import com.nico.store.store.service.OrderService;
 import com.nico.store.store.service.UserService;
+import com.nico.store.store.service.impl.EmailSenderService;
 import com.nico.store.store.service.impl.UserSecurityService;
 
 import utility.SecurityUtility;
@@ -39,6 +43,9 @@ public class AccountController {
 	
 	@Autowired
 	private OrderService orderService;
+
+	@Autowired
+	private EmailSenderService senderService;
 
 	@RequestMapping("/login")
 	public String log(Model model) {
@@ -69,6 +76,16 @@ public class AccountController {
 		model.addAttribute("user", user);
 		return "myAddress";
 	}
+
+	@RequestMapping(value = "/verify", method = RequestMethod.GET)
+	public String getVerify(Model model){
+		model.addAttribute("email", model.asMap().get("email"));
+		model.addAttribute("emailExists", model.asMap().get("emailExists"));
+		model.addAttribute("onTime", model.asMap().get("onTime"));
+		model.addAttribute("codeMismatched", model.asMap().get("codeMismatched"));
+		model.addAttribute("outTimeCode", model.asMap().get("outTimeCode"));
+		return "verify";
+	}
 	
 	@RequestMapping(value="/update-user-address", method=RequestMethod.POST)
 	public String updateUserAddress(@ModelAttribute("address") Address address, 
@@ -84,28 +101,97 @@ public class AccountController {
 	
 	@RequestMapping(value="/new-user", method=RequestMethod.POST)
 	public String newUserPost(@Valid @ModelAttribute("user") User user, BindingResult bindingResults,
-							  @ModelAttribute("new-password") String password, 
+							  @ModelAttribute("username") String username,
+							  @ModelAttribute("new-password") String newPassword,
+							  @ModelAttribute("confirm-password") String confirmPassword,
+							  @ModelAttribute("phone-number") String phoneNumber,
+							  @ModelAttribute("email") String email,
 							  RedirectAttributes redirectAttributes, Model model) {
-		model.addAttribute("email", user.getEmail());
-		model.addAttribute("username", user.getUsername());	
+		redirectAttributes.addFlashAttribute("email", email);
+
 		boolean invalidFields = false;
 		if (bindingResults.hasErrors()) {
 			return "redirect:/login";
-		}		
-		if (userService.findByUsername(user.getUsername()) != null) {
+		}
+		User checkUser = userService.findByUsername(user.getUsername());
+		if ((checkUser != null && (!checkUser.getEmail().equals(user.getEmail()) || checkUser.isEnabled()))
+				|| !username.matches("^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$")) {
 			redirectAttributes.addFlashAttribute("usernameExists", true);
 			invalidFields = true;
 		}
-		if (userService.findByEmail(user.getEmail()) != null) {
+		User checkEmail = userService.findByEmail(user.getEmail());
+		if ((checkEmail != null && checkEmail.isEnabled()) || !email.toLowerCase().matches("^[a-z][a-z0-9_\\.]{5,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$")) {
 			redirectAttributes.addFlashAttribute("emailExists", true);
 			invalidFields = true;
-		}	
+		}
+		if(!newPassword.equals(confirmPassword)){
+			redirectAttributes.addFlashAttribute("passwordExists", true);
+			invalidFields = true;
+		} else if(!confirmPassword.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&_])[A-Za-z\\d@$!%*?&_]{8,20}$")){
+			redirectAttributes.addFlashAttribute("validatePassword", true);
+			invalidFields = true;
+		}
+		if(!phoneNumber.matches("((09|03|07|08|05)+([0-9]{8})\\b)")){
+			redirectAttributes.addFlashAttribute("numberPhoneExists", true);
+			invalidFields = true;
+		}
 		if (invalidFields) {
 			return "redirect:/login";
-		}		
-		user = userService.createUser(user.getUsername(),  user.getEmail(), password, Arrays.asList("ROLE_USER"));	
+		}
+
+		user = userService.createUser(user.getUsername(),  user.getEmail(), confirmPassword, Arrays.asList("ROLE_USER"), phoneNumber);
+		senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "Code: " + user.getCode());
+
+		return "redirect:/verify";
+	}
+
+	@RequestMapping(value="/verify", method=RequestMethod.POST)
+	public String verifyMail(@ModelAttribute("email") String email, BindingResult bindingResults,
+							 @ModelAttribute("verify-code") String code,
+							 @ModelAttribute("new-code") String sendNewCode,
+							 RedirectAttributes redirectAttributes, Model model){
+		User user = userService.findByEmail(email);
+		redirectAttributes.addFlashAttribute("email", email);
+
+		if (bindingResults.hasErrors()) {
+			return "redirect:/verify";
+		}
+
+		if(user==null || user.isEnabled()){
+			redirectAttributes.addFlashAttribute("emailExists", true);
+			return "redirect:/verify";
+		}
+		if(sendNewCode.equals("Gửi lại")){
+			if(Duration.between(user.getTimeCode(), LocalDateTime.now()).toMinutes()<5){
+				redirectAttributes.addFlashAttribute("onTime", true);
+				return "redirect:/verify";
+			}
+			Random rand = new Random();
+			int codeNew = rand.nextInt(900000)+100000;
+
+			user.setCode(codeNew);
+			user.setTimeCode(LocalDateTime.now());
+			userService.save(user);
+
+			senderService.sendEmail(user.getEmail(), "Verify Account HiiTFigure", "Code: " + user.getCode());
+
+			return "redirect:/verify";
+		}
+		if(!Integer.toString(user.getCode()).equals(code)){
+			redirectAttributes.addFlashAttribute("codeMismatched", true);
+			return "redirect:/verify";
+		}
+		if(Duration.between(user.getTimeCode(), LocalDateTime.now()).toMinutes()>5){
+			redirectAttributes.addFlashAttribute("outTimeCode", true);
+			return "redirect:/verify";
+		}
+
+		user.setEnabled(true);
+		userService.save(user);
 		userSecurityService.authenticateUser(user.getUsername());
-		return "redirect:/my-profile";  
+		model.addAttribute(user);
+
+		return "myProfile";
 	}
 		
 	@RequestMapping(value="/update-user-info", method=RequestMethod.POST)
