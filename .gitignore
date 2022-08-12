@@ -1,3 +1,6 @@
+.terraform/
+k8s/
+
 HELP.md
 /target/
 /bin
