@@ -15,8 +15,8 @@ pipeline {
     stages {
         stage("Checkout"){
             steps {
-                sh "echo ${GIT_BRANCH}"
-                sh "echo ${env}"
+                // sh "echo ${GIT_BRANCH}"
+                // sh "echo ${env}"
                 
                 checkout([$class: 'GitSCM', 
                     branches: [[name: '*/main']],
