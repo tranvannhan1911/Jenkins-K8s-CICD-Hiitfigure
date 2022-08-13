@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hiitfigure
+  namespace: hiitfigure
+data:
+  MYSQL_DB_HOST: "hiitfigure.c1ard4n0kt9r.ap-southeast-1.rds.amazonaws.com"
+  MYSQL_DB_PORT: "3306"
+  MYSQL_DB_DATABASE: "figurestore"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hiitfigure-deployment
+  namespace: hiitfigure
+  labels:
+    app: hiitfigure
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hiitfigure
+  template:
+    metadata:
+      labels:
+        app: hiitfigure
+    spec:
+      containers:
+      - name: hiitfigure
+        image: tranvannhan1911/hiitfigure
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: hiitfigure
+        - secretRef:
+            name: hiitfigure
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hiitfigure-service
+  namespace: hiitfigure
+spec:
+  selector:
+    app: hiitfigure
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hiitfigure-ingress
+  namespace: hiitfigure
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: hiitfigure.tranvannhan1911.tk
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hiitfigure-service
+            port:
+              number: 8080
