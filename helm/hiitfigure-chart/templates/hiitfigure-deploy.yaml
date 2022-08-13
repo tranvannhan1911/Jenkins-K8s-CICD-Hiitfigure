@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: hiitfigure
-        image: tranvannhan1911/hiitfigure
+        image: {{ .Values.hiitimage }}
         ports:
         - containerPort: 8080
         envFrom:
