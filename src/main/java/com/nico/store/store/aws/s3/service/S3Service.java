@@ -19,6 +19,14 @@ import org.springframework.util.StringUtils;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 
 @Service
 public class S3Service {
@@ -33,19 +41,19 @@ public class S3Service {
 		this.s3Client = s3Client;
 	}
 
-	// public String uploadFile(MultipartFile file) {
-	// 	File fileObj = convertMultiPartFileToFile(file);
-	// 	String rand = new Random().ints(48, 57).limit(10)
-	// 			.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+	public String uploadFile(MultipartFile file) {
+		File fileObj = convertMultiPartFileToFile(file);
+		String rand = new Random().ints(48, 57).limit(10)
+				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
 
-	// 	String extend = StringUtils.getFilenameExtension(file.getOriginalFilename());
-	// 	String fileName = System.currentTimeMillis() + rand + "." + extend;
+		String extend = StringUtils.getFilenameExtension(file.getOriginalFilename());
+		String fileName = System.currentTimeMillis() + rand + "." + extend;
 
-	// 	s3Client.putObject(
-	// 			new PutObjectRequest(bucketName, fileName, fileObj).withCannedAcl(CannedAccessControlList.PublicRead));
-	// 	fileObj.delete();
-	// 	return "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
-	// }
+		s3Client.putObject(
+				new PutObjectRequest(bucketName, fileName, fileObj).withCannedAcl(CannedAccessControlList.PublicRead));
+		fileObj.delete();
+		return "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+	}
 
 	public Set<String> uploadFiles(MultipartFile[] files) {
 		Set<String> fileUploaded = new HashSet<String>();
