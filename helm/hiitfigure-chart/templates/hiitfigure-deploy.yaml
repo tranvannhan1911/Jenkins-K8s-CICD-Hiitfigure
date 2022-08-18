@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: hiitfigure
-  namespace: hiitfigure
+  namespace: hiitfigure-{{ .Values.hiitfigure.env }}
 data:
   MYSQL_DB_HOST: "hiitfigure.c1ard4n0kt9r.ap-southeast-1.rds.amazonaws.com"
   MYSQL_DB_PORT: "3306"
@@ -12,7 +12,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hiitfigure-deployment
-  namespace: hiitfigure
+  namespace: hiitfigure-{{ .Values.hiitfigure.env }}
   labels:
     app: hiitfigure
 spec:
@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: hiitfigure
-        image: {{ .Values.hiitimage }}
+        image: {{ .Values.hiitfigure.image }}
         ports:
         - containerPort: 8080
         envFrom:
@@ -40,7 +40,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: hiitfigure-service
-  namespace: hiitfigure
+  namespace: hiitfigure-{{ .Values.hiitfigure.env }}
 spec:
   selector:
     app: hiitfigure
@@ -54,7 +54,7 @@ spec:
 # kind: Ingress
 # metadata:
 #   name: hiitfigure-ingress
-#   namespace: hiitfigure
+#   namespace: hiitfigure-{{ .Values.hiitfigure.env }}
 # spec:
 #   ingressClassName: nginx
 #   rules:
