@@ -31,7 +31,7 @@ public class S3Service {
 	@Autowired
 	public S3Service (AmazonS3 s3Client){
 		this.s3Client = s3Client;
-	};
+	}
 
 	public String uploadFile(MultipartFile file) {
 		File fileObj = convertMultiPartFileToFile(file);
